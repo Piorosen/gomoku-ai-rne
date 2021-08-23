@@ -1,0 +1,27 @@
+set(PROGRAM_NAME "Gomoku-ai")
+
+PROJECT(${PROGRAM_NAME})
+CMAKE_MINIMUM_REQUIRED(VERSION 3.6)
+SET(CMAKE_CXX_STANDARD 11)
+
+# Add Dependecy Library Directory
+
+set(DIR_GRAPHICS Graphic)
+set(DIR_CORE Core)
+
+MESSAGE(STATUS "Graphics Path : " ${DIR_GRAPHICS})
+
+file(GLOB_RECURSE INCLUDE_CORE Core/include/*.h)
+file(GLOB_RECURSE LIB_CORE Core/lib/*.cpp)
+
+file(GLOB_RECURSE LIB_GRAPHICS ${DIR_GRAPHICS}/*.cpp)
+file(GLOB_RECURSE INCLUDE_GRAPHICS ${DIR_GRAPHICS}/*.h)
+
+include_directories(${INCLUDE_GRAPHICS}
+                    ${INCLUDE_CORE})
+
+ADD_EXECUTABLE(${PROGRAM_NAME}
+	./main.cpp
+	${LIB_CORE}
+    ${LIB_GRAPHICS}
+	)
