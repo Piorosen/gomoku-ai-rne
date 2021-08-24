@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include "core.h"
+#include "graphic.h"
 
-int main()
+int main(int argc, char **argv)
 {
-    printf("%d", haha(12, 30));
-    printf("hello world!");
-    return 0;
+    mm();
 }
