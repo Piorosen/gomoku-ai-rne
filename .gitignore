@@ -369,3 +369,4 @@ Makefile
 *.filters
 *.vcxproj
 *.sln
+Gomoku/Gomoku-ai
