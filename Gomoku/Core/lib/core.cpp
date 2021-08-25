@@ -1,9 +1,10 @@
 #include "core.h"
+#include <spdlog/spdlog.h>
+// #include <rapidjson/document.h>
 
 int haha(int a, int b)
 {
-    spdlog::info("222");
-    spdlog::info("aa");
+    spdlog::info("asdsa");
 
     return 20;
 }
