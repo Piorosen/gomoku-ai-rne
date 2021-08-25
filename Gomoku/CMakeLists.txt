@@ -5,6 +5,9 @@ cmake_minimum_required(VERSION 3.16.0)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(${CMAKE_SOURCE_DIR}/ThirdParty/rapidjson.cmake)
+include(${CMAKE_SOURCE_DIR}/ThirdParty/spdlog.cmake)
+
 # Add Dependecy Library Directory
 ADD_EXECUTABLE(${PROGRAM_NAME}
 	main.cpp

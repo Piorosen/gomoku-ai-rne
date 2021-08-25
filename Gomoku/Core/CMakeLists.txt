@@ -1,16 +1,14 @@
 cmake_minimum_required(VERSION 3.16.0)
-set(PROGRAM_NAME "core")
+set(libCore "core")
 
-
-add_library(${PROGRAM_NAME} STATIC 
+add_library(${libCore} STATIC 
             lib/core.cpp            
             )
 
-include(${CMAKE_SOURCE_DIR}/ThirdParty/rapidjson.cmake)
-include_directories(${RAPIDJSON_INCLUDE_DIR})
-
-include(${CMAKE_SOURCE_DIR}/ThirdParty/spdlog.cmake)
-include_directories(${SPDLOG_INCLUDE_DIR})    
+add_dependencies(${libCore} spdlog)            
+add_dependencies(${libCore} rapidjson)
 
 # 해당 라이브러리 컴파일 시 사용할 헤더파일 경로
-target_include_directories(${PROGRAM_NAME} PUBLIC include)
+target_include_directories(${libCore} PRIVATE ${RAPIDJSON_INCLUDE_DIR})
+target_include_directories(${libCore} PUBLIC ${SPDLOG_INCLUDE_DIR})
+target_include_directories(${libCore} PUBLIC include)
