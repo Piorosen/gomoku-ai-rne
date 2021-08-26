@@ -5,12 +5,12 @@ find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
 add_library(${libGraphic} STATIC 
-            lib/graphic.cpp
+            lib/graphic/graphic.cpp
             )
 
-# add_dependencies(${libGraphic} spdlog)   
+add_dependencies(${libGraphic} spdlog)   
+target_include_directories(${libGraphic} PUBLIC ${SPDLOG_INCLUDE_DIR})
 
-# target_include_directories(${libGraphic} PUBLIC ${SPDLOG_INCLUDE_DIR})
 # 해당 라이브러리 컴파일 시 사용할 헤더파일 경로
 target_include_directories(${libGraphic} PUBLIC include)
 
