@@ -5,7 +5,10 @@ find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
 add_library(${libGraphic} STATIC 
-            lib/graphic/graphic.cpp
+            lib/graphic/application.cpp
+            lib/graphic/applicationdelegate.cpp
+            
+            lib/graphic/components/view.cpp
             )
 
 add_dependencies(${libGraphic} spdlog)   
