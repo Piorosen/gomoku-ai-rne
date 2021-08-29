@@ -1,9 +1,12 @@
 #pragma once
-
 #define GL_SILENCE_DEPRECATION
+
+#include <graphic/components/view.h>
+#include <graphic/viewcontroller/viewcontroller.h>
 
 #include <string>
 #include <memory>
+#include <optional>
 
 namespace grc
 {
@@ -13,13 +16,16 @@ namespace grc
     public:
         static std::unique_ptr<grc::application> shared;
 
-        void keyboard(unsigned char key, int x, int y);
-        void mouse(int button, int state, int x, int y);
+        void keyboard(unsigned char key, int x, int y) const;
+        void mouse(int button, int state, int x, int y) const;
+        void render() const;
 
-        application(int width, int height, std::string title);
         application();
 
         void run();
+        void close();
+
+        grc::viewcontroller *entryController = nullptr;
 
     protected:
     };

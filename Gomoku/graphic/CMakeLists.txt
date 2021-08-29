@@ -6,9 +6,10 @@ find_package(GLUT REQUIRED)
 
 add_library(${libGraphic} STATIC 
             lib/graphic/application.cpp
-            # lib/graphic/applicationdelegate.cpp
             
-            # lib/graphic/components/view.cpp
+            lib/graphic/components/view.cpp
+            lib/graphic/components/button.cpp
+            lib/graphic/components/window.cpp
             )
 
 add_dependencies(${libGraphic} spdlog)   
