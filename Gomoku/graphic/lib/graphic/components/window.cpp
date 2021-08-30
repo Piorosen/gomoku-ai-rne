@@ -1,1 +1,0 @@
-#include <graphic/components/window.h>

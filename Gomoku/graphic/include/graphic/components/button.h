@@ -3,7 +3,7 @@
 
 namespace grc
 {
-    class button : view
+    class button : public grc::view
     {
     };
 }

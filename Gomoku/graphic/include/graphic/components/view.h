@@ -20,7 +20,6 @@ namespace grc
         }
 
         grc::rect frame;
-        grc::rect bounds;
         grc::color background;
 
         virtual void render() const;
