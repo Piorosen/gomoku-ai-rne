@@ -14,6 +14,7 @@ namespace grc
     {
     private:
         grc::size size = {500, 500};
+        std::string title = "OpenGL : Test";
 
     public:
         static std::unique_ptr<grc::application> shared;
@@ -29,8 +30,13 @@ namespace grc
 
         std::shared_ptr<grc::viewcontroller> entryController = nullptr;
 
+        void initialize(const grc::size size, const std::string title);
+
+        std::string getTitle() const;
+        void setTitle(const std::string title);
+
         grc::size getSize() const;
-        void setSize(grc::size size);
+        void setSize(const grc::size size);
 
     protected:
     };

@@ -1,5 +1,6 @@
 #include <graphic/application.h>
 #include <memory>
+#include <spdlog/spdlog.h>
 
 int main(int argc, char **argv)
 {
@@ -13,6 +14,7 @@ int main(int argc, char **argv)
 
     entry->view.push_back(std::make_shared<grc::view>(f, c));
 
+    grc::application::shared->initialize({500, 700}, "오목 : 그것이 알고 싶다.");
     grc::application::shared->entryController = entry;
     grc::application::shared->run();
 }

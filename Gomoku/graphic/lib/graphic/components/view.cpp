@@ -1,5 +1,6 @@
 #define GL_SILENCE_DEPRECATION
 
+#include <graphic/application.h>
 #include <graphic/components/view.h>
 #include <GLUT/glut.h>
 #include <spdlog/spdlog.h>
@@ -14,8 +15,9 @@ void grc::view::render() const
     grc::point lbp = {this->frame.location.x, this->frame.location.y};
     grc::point rbp = {this->frame.location.x + this->frame.size.width, this->frame.location.y};
 
-    float displayX = 500 / 2,
-          displayY = -500 / 2;
+    const auto &displaySize = grc::application::shared->getSize();
+    float displayX = displaySize.width / 2,
+          displayY = -displaySize.height / 2;
 
     glVertex2f(lbp.x / displayX - 1, lbp.y / displayY + 1); // x, y
     glVertex2f(rbp.x / displayX - 1, rbp.y / displayY + 1);

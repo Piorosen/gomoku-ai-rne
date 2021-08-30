@@ -47,28 +47,54 @@ void grc::application::render() const
 
 grc::application::application()
 {
-    int width = 500;
-    int height = 500;
-    std::string title = "hello!";
-    spdlog::info("OpenGL Initialize : [{}, {}], {}", width, height, title);
+    spdlog::info("OpenGL Initialize : [{}, {}], {}", size.width, size.height, title);
     int myArgc = 0;
     glutInit(&myArgc, nullptr); //GLUT 초기화
+}
 
-    glutInitWindowSize(width, height); //윈도우의 width와 height
-    glutCreateWindow(title.c_str());   //윈도우 생성
+std::string grc::application::getTitle() const
+{
+    return this->title;
+}
 
-    glutKeyboardFunc(grc::glKeyboard);
-    glutMouseFunc(grc::glMouse);
-    glutDisplayFunc(grc::glDisplay);
+void grc::application::setTitle(const std::string title)
+{
+    this->title = title;
+    glutSetWindowTitle(title.c_str());
 }
 
 void grc::application::run()
 {
+    spdlog::info("OpenGL : run, [{}, {}, \"{}\"]", size.width, size.height, title);
+    glutInitWindowSize(size.width, size.height); //윈도우의 width와 height
+    glutCreateWindow(title.c_str());             //윈도우 생성
+
+    glutKeyboardFunc(grc::glKeyboard);
+    glutMouseFunc(grc::glMouse);
+    glutDisplayFunc(grc::glDisplay);
+
     glutMainLoop();
 }
 
 void grc::application::close()
 {
+}
+
+void grc::application::initialize(const grc::size size, const std::string title)
+{
+    this->size = size;
+    this->title = title;
+}
+
+void grc::application::setSize(const grc::size size)
+{
+    this->size = size;
+    glViewport(0, 0, size.width, size.height);
+}
+
+grc::size grc::application::getSize() const
+{
+    return this->size;
 }
 
 void grc::glDisplay()
