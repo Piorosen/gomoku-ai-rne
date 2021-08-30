@@ -10,6 +10,8 @@ namespace grc
     class view
     {
     private:
+        std::vector<std::shared_ptr<grc::view>> controls;
+
     public:
         view(grc::rect f, grc::color b)
         {
@@ -19,10 +21,7 @@ namespace grc
 
         grc::rect frame;
         grc::rect bounds;
-
         grc::color background;
-
-        std::vector<std::shared_ptr<grc::view>> controls;
 
         virtual void render() const;
 

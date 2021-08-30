@@ -10,9 +10,11 @@
 
 namespace grc
 {
-    class application
+    class application final
     {
     private:
+        grc::size size = {500, 500};
+
     public:
         static std::unique_ptr<grc::application> shared;
 
@@ -25,7 +27,10 @@ namespace grc
         void run();
         void close();
 
-        grc::viewcontroller *entryController = nullptr;
+        std::shared_ptr<grc::viewcontroller> entryController = nullptr;
+
+        grc::size getSize() const;
+        void setSize(grc::size size);
 
     protected:
     };

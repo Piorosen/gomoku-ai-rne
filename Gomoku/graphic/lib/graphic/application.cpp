@@ -34,7 +34,6 @@ void grc::application::mouse(int button, int state, int x, int y) const
 
 void grc::application::render() const
 {
-
     if (this->entryController == nullptr)
     {
         spdlog::critical("Entry Controller Not Found");
