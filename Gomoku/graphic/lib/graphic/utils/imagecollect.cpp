@@ -21,7 +21,6 @@ int grc::imagecollect::add(std::string file)
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-    glEnable(GL_TEXTURE_2D);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
     glGenerateMipmap(GL_TEXTURE_2D);
     stbi_image_free(buffer);

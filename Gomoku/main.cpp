@@ -23,7 +23,7 @@ std::shared_ptr<grc::viewcontroller> makeViewController()
     b->imageId = image;
     entry->view.push_back(std::make_shared<grc::view>(f, c));
 
-    // entry->view.push_back(std::static_pointer_cast<grc::view>(b));
+    entry->view.push_back(std::static_pointer_cast<grc::view>(b));
 
     return entry;
 }
