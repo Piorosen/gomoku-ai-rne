@@ -19,14 +19,14 @@ void grc::imageview::render() const
         glBindTexture(GL_TEXTURE_2D, this->imageId.value());
         glBegin(GL_QUADS);
 
-        glTexCoord2f(0.0, 1.0);
-        glVertex2f(lbp.x / displayX - 1, lbp.y / displayY + 1); // x, y
         glTexCoord2f(1.0, 1.0);
         glVertex2f(rbp.x / displayX - 1, rbp.y / displayY + 1);
         glTexCoord2f(1.0, 0.0);
         glVertex2f(rup.x / displayX - 1, rup.y / displayY + 1);
         glTexCoord2f(0.0, 0.0);
         glVertex2f(lup.x / displayX - 1, lup.y / displayY + 1);
+        glTexCoord2f(0.0, 1.0);
+        glVertex2f(lbp.x / displayX - 1, lbp.y / displayY + 1); // x, y
         glEnd();
         glDisable(GL_TEXTURE_2D);
     }
