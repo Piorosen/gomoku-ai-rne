@@ -3,20 +3,30 @@
 #include <graphic/components/button.h>
 #include <glut.h>
 
-bool grc::button::click(int state, int x, int y) { 
+int grc::button::click(int state, int x, int y)
+{
     auto r = grc::view::click(state, x, y);
+    if (r != 2)
+    {
+        return r;
+    }
 
-    if (this->buttonKeyDown) {
-        if (state == 1) {
-            if (r && buttonDown)
+    if (this->buttonKeyDown)
+    {
+        if (state == 1)
+        {
+            if (buttonDown)
             {
                 buttonDown();
             }
             this->buttonKeyDown = false;
             glutPostRedisplay();
         }
-    }else if (!this->buttonKeyDown && r) {
-        if (state == 0) {
+    }
+    else if (!this->buttonKeyDown)
+    {
+        if (state == 0)
+        {
             this->buttonKeyDown = true;
             glutPostRedisplay();
         }
@@ -27,7 +37,7 @@ bool grc::button::click(int state, int x, int y) {
 
 bool grc::button::render() const
 {
-    if (grc::view::render())
+    if (!getHidden())
     {
         if (this->buttonKeyDown)
         {
@@ -37,8 +47,12 @@ bool grc::button::render() const
         {
             this->drawRect(this->frame, this->background);
         }
+
+        propagation();
         return true;
-    }else {
+    }
+    else
+    {
         return false;
     }
 }

@@ -18,10 +18,9 @@ namespace grc
 
         grc::color focuscolor = grc::color(0x4f4f4fff);
 
-        virtual bool click(int state, int x, int y) override;
+        virtual int click(int state, int x, int y) override;
         virtual bool render() const override;
 
     protected:
-
     };
 }

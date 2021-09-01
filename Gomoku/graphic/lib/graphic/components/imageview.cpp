@@ -4,13 +4,18 @@
 
 bool grc::imageview::render() const
 {
-    if (grc::view::render()) {
+    if (!getHidden())
+    {
         if (this->imageId.has_value())
         {
             this->drawImage(this->frame, this->imageId.value());
         }
+
+        propagation();
         return true;
-    }else {
+    }
+    else
+    {
         return false;
     }
 }

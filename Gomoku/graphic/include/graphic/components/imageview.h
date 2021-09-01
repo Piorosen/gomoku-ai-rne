@@ -23,7 +23,5 @@ namespace grc
         std::optional<unsigned int> imageId = std::nullopt;
 
     protected:
-        
-
-    };
+        };
 }

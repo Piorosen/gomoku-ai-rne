@@ -3,20 +3,29 @@
 #include <graphic/components/imagebutton.h>
 #include <glut.h>
 
-bool grc::imagebutton::click(int state, int x, int y) { 
+int grc::imagebutton::click(int state, int x, int y)
+{
     auto r = grc::view::click(state, x, y);
-
-    if (this->buttonKeyDown) {
-        if (state == 1) {
-            if (r && buttonDown)
+    if (r != 2)
+    {
+        return r;
+    }
+    if (this->buttonKeyDown)
+    {
+        if (state == 1)
+        {
+            if (buttonDown)
             {
                 buttonDown();
             }
             this->buttonKeyDown = false;
             glutPostRedisplay();
         }
-    }else if (!this->buttonKeyDown && r) {
-        if (state == 0) {
+    }
+    else if (!this->buttonKeyDown)
+    {
+        if (state == 0)
+        {
             this->buttonKeyDown = true;
             glutPostRedisplay();
         }
@@ -27,7 +36,8 @@ bool grc::imagebutton::click(int state, int x, int y) {
 
 bool grc::imagebutton::render() const
 {
-    if (grc::view::render()) {
+    if (!getHidden())
+    {
         if (this->buttonKeyDown && this->focusImageId.has_value())
         {
             this->drawImage(this->frame, this->focusImageId.value());
@@ -36,9 +46,12 @@ bool grc::imagebutton::render() const
         {
             this->drawImage(this->frame, this->backgroundImageId.value());
         }
+
+        propagation();
         return true;
-    }else {
+    }
+    else
+    {
         return false;
     }
-    
 }
