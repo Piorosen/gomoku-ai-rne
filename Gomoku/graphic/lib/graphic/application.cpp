@@ -6,13 +6,14 @@ std::unique_ptr<grc::application> grc::application::shared = std::make_unique<gr
 
 void grc::application::keyboard(unsigned char key, int x, int y) const
 {
-    spdlog::info("keyboard event : [{}, {}]", (char)key, (int)key);
-
     //ESC 키가 눌러졌다면 프로그램 종료
     if (key == 27)
     {
+        glutDestroyWindow(glutGetWindow());
         exit(0);
     }
+
+    this->entryController->keyboardEvent(key, x, y);
 }
 
 void grc::application::mouse(int button, int state, int x, int y) const
@@ -83,6 +84,7 @@ void grc::application::run()
 void grc::application::close()
 {
     glutDestroyWindow(glutGetWindow());
+    exit(0);
 }
 
 void grc::application::setViewController(std::shared_ptr<grc::viewcontroller> &&vc)

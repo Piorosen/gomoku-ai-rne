@@ -13,6 +13,7 @@ add_library(${libGraphic} STATIC
             lib/graphic/components/view.cpp
             lib/graphic/components/button.cpp
             lib/graphic/components/imagebutton.cpp
+            lib/graphic/components/gameBoard.cpp
 
             lib/graphic/viewcontroller/viewcontroller.cpp
             )
