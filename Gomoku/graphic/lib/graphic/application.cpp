@@ -74,6 +74,9 @@ void grc::application::setTitle(const std::string title)
 
 void grc::application::run()
 {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glutKeyboardFunc(grc::glKeyboard);
     glutMouseFunc(grc::glMouse);
     glutDisplayFunc(grc::glDisplay);
