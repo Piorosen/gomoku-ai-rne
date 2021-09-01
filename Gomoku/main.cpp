@@ -19,12 +19,31 @@ int main(int argc, char **argv)
     decltype(auto) mainVC = std::make_shared<mainViewController>();
     decltype(auto) gameVC = std::make_shared<gameViewController>();
 
-    gameVC->buttonBack = [&mainVC](unsigned char key)
+    gameVC->buttonBack = [&mainVC, &gameVC](unsigned char key)
     {
         spdlog::info("gameVC : button back button");
         if (key == 127)
         {
             grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(mainVC));
+        }
+        else
+        {
+            switch (key)
+            {
+            case '1':
+                gameVC->newItem(1);
+                break;
+
+            case '2':
+                gameVC->newItem(2);
+                break;
+            case '3':
+                gameVC->newItem(3);
+                break;
+
+            default:
+                break;
+            }
         }
     };
 
