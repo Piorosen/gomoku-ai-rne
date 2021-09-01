@@ -17,8 +17,6 @@ void grc::application::keyboard(unsigned char key, int x, int y) const
 
 void grc::application::mouse(int button, int state, int x, int y) const
 {
-    spdlog::info("mouse event : [{}, {}, {}, {}]", button, state, x, y);
-
     switch (button)
     {
     case GLUT_LEFT_BUTTON:
@@ -29,9 +27,7 @@ void grc::application::mouse(int button, int state, int x, int y) const
         }
         else
         {
-            if (state == 0) {
-                this->entryController->mouseEvent(button, state, x, y);
-            }
+            this->entryController->mouseEvent(button, state, x, y);
         }
         break;
     case GLUT_MIDDLE_BUTTON:

@@ -7,14 +7,16 @@
 #include <GLUT/glut.h>
 #include <spdlog/spdlog.h>
 
-bool grc::view::click(int x, int y) {
+bool grc::view::click(int state, int x, int y) {
+    for (auto &p : this->controls)
+    {
+        p->click(state, x, y);
+    }
+
     if (this->frame.location.x < x && x < this->frame.location.x + this->frame.size.width &&
         this->frame.location.y < y && y < this->frame.location.y + this->frame.size.height)
     {
-        spdlog::info("[{}, {}]", x, y);
-        for (auto &p : this->controls) {
-            p->click(x, y);
-        }
+        spdlog::info("[{}, {}, {}]", state, x, y);
         return true;
     }else {
         return false;
@@ -87,4 +89,36 @@ void grc::view::drawLine(grc::point x, grc::point y, float thin, grc::color colo
     glVertex2f(y.x / displayX - 1, y.y / displayY + 1);
     glEnd();
     glColor3f(1.0f, 1.0f, 1.0f); //흰색 지정
+}
+
+void grc::view::drawImage(grc::rect size, unsigned int imageId) const
+{
+    grc::point lup = {this->frame.location.x, this->frame.location.y + this->frame.size.height};
+    grc::point rup = {this->frame.location.x + this->frame.size.width, this->frame.location.y + this->frame.size.height};
+    grc::point lbp = {this->frame.location.x, this->frame.location.y};
+    grc::point rbp = {this->frame.location.x + this->frame.size.width, this->frame.location.y};
+
+    const auto &displaySize = grc::application::shared->getSize();
+    float displayX = displaySize.width / 2,
+          displayY = -displaySize.height / 2;
+
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+    glBindTexture(GL_TEXTURE_2D, imageId);
+    glBegin(GL_QUADS);
+
+    glTexCoord2f(1.0, 1.0);
+    glVertex2f(rup.x / displayX - 1, rup.y / displayY + 1);
+
+    glTexCoord2f(0.0, 1.0);
+    glVertex2f(lup.x / displayX - 1, lup.y / displayY + 1);
+
+    glTexCoord2f(0.0, 0.0);
+    glVertex2f(lbp.x / displayX - 1, lbp.y / displayY + 1); // x, y
+
+    glTexCoord2f(1.0, 0.0);
+    glVertex2f(rbp.x / displayX - 1, rbp.y / displayY + 1);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
 }

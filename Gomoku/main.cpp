@@ -1,5 +1,7 @@
 #include <graphic/application.h>
 #include <graphic/components/imageview.h>
+#include <graphic/components/button.h>
+
 #include <graphic/utils/imagecollect.h>
 
 #include <memory>
@@ -23,8 +25,14 @@ std::shared_ptr<grc::viewcontroller> makeViewController()
     f3.size = {150, 150};
     auto c = std::make_shared<grc::view>(f3, grc::color(0xff6655ff));
 
+    grc::rect f4;
+    f4.location = {0, 150};
+    f4.size = {150, 150};
+    auto d = std::make_shared<grc::button>(f4);
+
     entry->view.push_back(std::static_pointer_cast<grc::view>(b));
     entry->view.push_back(c);
+    entry->view.push_back(std::static_pointer_cast<grc::view>(d));
 
     return entry;
 }
