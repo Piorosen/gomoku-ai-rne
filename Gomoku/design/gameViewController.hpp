@@ -35,6 +35,13 @@ private:
         auto p2 = std::make_shared<grc::imagebutton>(f3);
         p2->backgroundImageId = backIdx;
         p2->focusImageId = back_focusIdx;
+        p2->buttonDown = [this]()
+        {
+            if (this->buttonBack)
+            {
+                this->buttonBack(127);
+            }
+        };
 
         view.push_back(std::make_shared<grc::gameBoard>(f1, s1));
         view.push_back(std::static_pointer_cast<grc::view>(p));
