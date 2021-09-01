@@ -3,7 +3,6 @@
 
 #include <graphic/components/view.h>
 #include <graphic/viewcontroller/viewcontroller.h>
-#include <graphic/applicationdelegate.h>
 
 #include <string>
 #include <memory>
@@ -20,8 +19,6 @@ namespace grc
 
     public:
         static std::unique_ptr<grc::application> shared;
-
-        std::unique_ptr<grc::applicationdelegate> delegate;
 
         void keyboard(unsigned char key, int x, int y) const;
         void mouse(int button, int state, int x, int y) const;

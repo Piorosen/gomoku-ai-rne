@@ -1,4 +1,3 @@
-#pragma once
 #include <graphic/utils/color.h>
 
 grc::color::color()
