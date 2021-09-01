@@ -1,4 +1,6 @@
 #include "design/mainViewController.hpp"
+#include "design/gameViewController.hpp"
+#include "design/treeViewController.hpp"
 
 #include <spdlog/spdlog.h>
 #include <glut.h>
@@ -7,7 +9,8 @@
 
 int main(int argc, char **argv)
 {
-    for (int i = 0; i < argc; i++) {
+    for (int i = 0; i < argc; i++)
+    {
         spdlog::info("{} : \"{}\"", i, argv[i]);
     }
 
@@ -15,5 +18,5 @@ int main(int argc, char **argv)
     grc::application::shared->initialize({500, 700}, "오목 : 그것이 알고 싶다.");
     auto p = makeMainViewController();
     grc::application::shared->setViewController(std::move(p));
-    grc::application::shared->run();   
+    grc::application::shared->run();
 }

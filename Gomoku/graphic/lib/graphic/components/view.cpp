@@ -39,6 +39,13 @@ int grc::view::click(int state, int x, int y)
     }
 }
 
+void grc::view::setBorder(int borderSize, grc::color borderColor)
+{
+    this->borderSize = borderSize;
+    this->borderColor = borderColor;
+    glutPostRedisplay();
+}
+
 void grc::view::setHidden(bool value)
 {
     isHidden = value;
@@ -69,8 +76,18 @@ bool grc::view::render() const
 {
     if (!getHidden())
     {
-        this->drawRect(this->frame, this->background);
-
+        if (borderSize != 0)
+        {
+            grc::rect r;
+            r.location = {frame.location.x + borderSize, frame.location.y + borderSize};
+            r.size = {frame.size.width - borderSize * 2, frame.size.height - borderSize * 2};
+            this->drawRect(this->frame, this->borderColor);
+            this->drawRect(r, this->background);
+        }
+        else
+        {
+            this->drawRect(this->frame, this->background);
+        }
         for (auto &v : controls)
         {
             v->render();

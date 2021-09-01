@@ -24,11 +24,15 @@ namespace grc
         void setHidden(bool value);
         bool getHidden() const;
 
+        void setBorder(int borderSize, grc::color borderColor = grc::color(0xffffffff));
+
         virtual bool render() const;
         virtual int click(int state, int x, int y);
 
     protected:
         bool isHidden = false;
+        int borderSize = 0;
+        grc::color borderColor = grc::color(0xffffffff);
 
         bool propagation() const;
 
