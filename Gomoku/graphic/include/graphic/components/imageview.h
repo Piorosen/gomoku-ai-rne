@@ -19,9 +19,11 @@ namespace grc
         {
         }
 
-        virtual void render() const override;
+        virtual bool render() const override;
         std::optional<unsigned int> imageId = std::nullopt;
 
     protected:
+        
+
     };
 }

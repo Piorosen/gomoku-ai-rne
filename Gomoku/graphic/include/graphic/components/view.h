@@ -22,10 +22,15 @@ namespace grc
         grc::rect frame;
         grc::color background;
 
-        virtual void render() const;
+        void setHidden(bool value);
+        bool getHidden() const;
+
+        virtual bool render() const;
         virtual bool click(int state, int x, int y);
 
     protected:
+        bool isHidden = false;
+
         void drawRect(grc::rect size, grc::color color = grc::color(0xffffffff)) const;
         void drawCircle(grc::point pt, float radius, grc::color color) const;
         void drawLine(grc::point x, grc::point y, float thin = 5, grc::color color = grc::color(0xffffffff)) const;

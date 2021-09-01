@@ -7,7 +7,11 @@ bool grc::button::click(int state, int x, int y) {
     auto r = grc::view::click(state, x, y);
 
     if (this->buttonKeyDown) {
-        if (state == 1) { 
+        if (state == 1) {
+            if (r && buttonDown)
+            {
+                buttonDown();
+            }
             this->buttonKeyDown = false;
             glutPostRedisplay();
         }
@@ -21,10 +25,20 @@ bool grc::button::click(int state, int x, int y) {
     return r;
 }
 
-void grc::button::render() const {
-    if (this->buttonKeyDown) {
-        this->drawRect(this->frame, this->focuscolor);
+bool grc::button::render() const
+{
+    if (grc::view::render())
+    {
+        if (this->buttonKeyDown)
+        {
+            this->drawRect(this->frame, this->focuscolor);
+        }
+        else
+        {
+            this->drawRect(this->frame, this->background);
+        }
+        return true;
     }else {
-        this->drawRect(this->frame, this->background);
+        return false;
     }
 }

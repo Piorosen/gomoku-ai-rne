@@ -12,7 +12,6 @@
 std::shared_ptr<grc::viewcontroller> makeViewController()
 {
     std::shared_ptr<grc::viewcontroller> entry = std::make_shared<grc::viewcontroller>();
-    // view(grc::rect f, grc::color b)
 
     auto image = grc::imagecollect::shared->add("/Users/aoikazto/Desktop/aaaa.jpg");
     grc::rect f2;
@@ -30,6 +29,10 @@ std::shared_ptr<grc::viewcontroller> makeViewController()
     f4.location = {0, 150};
     f4.size = {150, 150};
     auto d = std::make_shared<grc::button>(f4);
+    d->buttonDown = [&entry]()
+    { 
+        entry->view[0]->setHidden(!entry->view[0]->getHidden()); 
+    };
 
     auto image1 = grc::imagecollect::shared->add("/Users/aoikazto/Desktop/1.jpg");
     auto image2 = grc::imagecollect::shared->add("/Users/aoikazto/Desktop/2.jpg");

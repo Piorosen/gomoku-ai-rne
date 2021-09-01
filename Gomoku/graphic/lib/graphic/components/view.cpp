@@ -23,10 +23,24 @@ bool grc::view::click(int state, int x, int y) {
     }
 }
 
-void grc::view::render() const
+void grc::view::setHidden(bool value) {
+    isHidden = value;
+    glutPostRedisplay();
+}
+
+bool grc::view::getHidden() const {
+    return this->isHidden;
+}
+
+bool grc::view::render() const
 {
-    spdlog::info("View Rendering");
-    this->drawRect(this->frame, this->background);
+    if (!getHidden()) {
+        spdlog::info("View Rendering");
+        this->drawRect(this->frame, this->background);
+        return true;
+    }else {
+        return false;
+    }
 }
 
 void grc::view::drawRect(grc::rect size, grc::color color) const

@@ -2,10 +2,15 @@
 #include <glut.h>
 #include <graphic/application.h>
 
-void grc::imageview::render() const
+bool grc::imageview::render() const
 {
-    if (this->imageId.has_value())
-    {
-        this->drawImage(this->frame, this->imageId.value());
+    if (grc::view::render()) {
+        if (this->imageId.has_value())
+        {
+            this->drawImage(this->frame, this->imageId.value());
+        }
+        return true;
+    }else {
+        return false;
     }
 }

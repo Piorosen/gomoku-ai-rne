@@ -7,7 +7,11 @@ bool grc::imagebutton::click(int state, int x, int y) {
     auto r = grc::view::click(state, x, y);
 
     if (this->buttonKeyDown) {
-        if (state == 1) { 
+        if (state == 1) {
+            if (r && buttonDown)
+            {
+                buttonDown();
+            }
             this->buttonKeyDown = false;
             glutPostRedisplay();
         }
@@ -21,11 +25,20 @@ bool grc::imagebutton::click(int state, int x, int y) {
     return r;
 }
 
-void grc::imagebutton::render() const
+bool grc::imagebutton::render() const
 {
-    if (this->buttonKeyDown && this->focusImageId.has_value()) {
-        this->drawImage(this->frame, this->focusImageId.value());
-    }else if (!this->buttonKeyDown && this->backgroundImageId.has_value()) {
-        this->drawImage(this->frame, this->backgroundImageId.value());
+    if (grc::view::render()) {
+        if (this->buttonKeyDown && this->focusImageId.has_value())
+        {
+            this->drawImage(this->frame, this->focusImageId.value());
+        }
+        else if (!this->buttonKeyDown && this->backgroundImageId.has_value())
+        {
+            this->drawImage(this->frame, this->backgroundImageId.value());
+        }
+        return true;
+    }else {
+        return false;
     }
+    
 }
