@@ -11,6 +11,8 @@ add_library(${libGraphic} STATIC
             lib/graphic/components/imageview.cpp
             lib/graphic/components/view.cpp
             lib/graphic/components/button.cpp
+
+            lib/graphic/viewcontroller/viewcontroller.cpp
             )
 
 add_dependencies(${libGraphic} spdlog)   

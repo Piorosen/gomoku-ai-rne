@@ -24,6 +24,8 @@ namespace grc
 
         virtual void render() const;
 
+        virtual bool click(int x, int y);
+
     protected:
         void drawRect(grc::rect size, grc::color color = grc::color(0xffffffff)) const;
         void drawCircle(grc::point pt, float radius, grc::color color) const;

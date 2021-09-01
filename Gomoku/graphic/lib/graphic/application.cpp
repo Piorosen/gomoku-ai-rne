@@ -22,6 +22,17 @@ void grc::application::mouse(int button, int state, int x, int y) const
     switch (button)
     {
     case GLUT_LEFT_BUTTON:
+        if (this->entryController == nullptr)
+        {
+            spdlog::critical("Entry Controller Not Found");
+            return;
+        }
+        else
+        {
+            if (state == 0) {
+                this->entryController->mouseEvent(button, state, x, y);
+            }
+        }
         break;
     case GLUT_MIDDLE_BUTTON:
         break;

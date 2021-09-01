@@ -7,9 +7,23 @@
 #include <GLUT/glut.h>
 #include <spdlog/spdlog.h>
 
+bool grc::view::click(int x, int y) {
+    if (this->frame.location.x < x && x < this->frame.location.x + this->frame.size.width &&
+        this->frame.location.y < y && y < this->frame.location.y + this->frame.size.height)
+    {
+        spdlog::info("[{}, {}]", x, y);
+        for (auto &p : this->controls) {
+            p->click(x, y);
+        }
+        return true;
+    }else {
+        return false;
+    }
+}
+
 void grc::view::render() const
 {
-    spdlog::info("View");
+    spdlog::info("View Rendering");
     this->drawRect(this->frame, this->background);
 }
 

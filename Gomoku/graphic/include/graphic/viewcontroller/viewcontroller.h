@@ -7,13 +7,9 @@ namespace grc
     {
     private:
     public:
-        void render()
-        {
-            for (auto &v : view)
-            {
-                v->render();
-            }
-        }
+        void mouseEvent(int button, int state, int x, int y);
+
+        virtual void render() const;
 
         std::vector<std::shared_ptr<grc::view>> view;
 
