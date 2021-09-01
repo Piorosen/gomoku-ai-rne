@@ -8,6 +8,11 @@ namespace grc
     {
         grc::point location;
         grc::size size;
+
+        grc::point center() const
+        {
+            return {location.x + (size.width / 2), location.y + (size.height / 2)};
+        }
     };
 
 }

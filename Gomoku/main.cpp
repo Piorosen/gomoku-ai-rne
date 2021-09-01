@@ -11,14 +11,20 @@ std::shared_ptr<grc::viewcontroller> makeViewController()
     std::shared_ptr<grc::viewcontroller> entry = std::make_shared<grc::viewcontroller>();
     // view(grc::rect f, grc::color b)
 
-    auto image = grc::imagecollect::shared->add("/Users/aoikazto/Desktop/268px-Gomoku-game-3.svg.png");
+    auto image = grc::imagecollect::shared->add("/Users/aoikazto/Desktop/aaaa.jpg");
     grc::rect f2;
     f2.location = {0, 0};
-    f2.size = {500, 500};
+    f2.size = {150, 150};
     auto b = std::make_shared<grc::imageview>(f2);
     b->imageId = image;
 
+    grc::rect f3;
+    f3.location = {150, 0};
+    f3.size = {150, 150};
+    auto c = std::make_shared<grc::view>(f3, grc::color(0xff6655ff));
+
     entry->view.push_back(std::static_pointer_cast<grc::view>(b));
+    entry->view.push_back(c);
 
     return entry;
 }
