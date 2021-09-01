@@ -1,19 +1,21 @@
 #pragma once
 #include <graphic/components/view.h>
+#include <optional>
 
 namespace grc
 {
-    class button : public grc::view
+    class imagebutton : public grc::view
     {
     private:
         bool buttonKeyDown = false;
 
     public:
-        button(grc::rect f) : grc::view(f, grc::color(0x7f7f7fff))
+        imagebutton(grc::rect f) : grc::view(f, grc::color(0x7f7f7fff))
         {
         }
 
-        grc::color focuscolor = grc::color(0x4f4f4fff);
+        std::optional<unsigned int> backgroundImageId = std::nullopt;
+        std::optional<unsigned int> focusImageId = std::nullopt;
 
         virtual bool click(int state, int x, int y) override;
         virtual void render() const override;

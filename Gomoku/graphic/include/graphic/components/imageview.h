@@ -12,10 +12,10 @@ namespace grc
     {
     private:
     public:
-        imageview(grc::rect f) : grc::view(f, grc::color(0xff0000ff))
+        imageview(grc::rect f) : grc::view(f, grc::color(0xff3f3fff))
         {
         }
-        imageview(grc::rect f, grc::color c) : grc::view(f, grc::color(0xff0000ff))
+        imageview(grc::rect f, grc::color c) : grc::view(f, grc::color(0xff3f3fff))
         {
         }
 

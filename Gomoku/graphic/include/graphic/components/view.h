@@ -23,7 +23,6 @@ namespace grc
         grc::color background;
 
         virtual void render() const;
-
         virtual bool click(int state, int x, int y);
 
     protected:

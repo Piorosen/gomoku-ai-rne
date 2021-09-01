@@ -82,6 +82,13 @@ void grc::application::run()
 
 void grc::application::close()
 {
+    glutDestroyWindow(glutGetWindow());
+}
+
+void grc::application::setViewController(std::shared_ptr<grc::viewcontroller> &&vc)
+{
+    this->entryController = vc;
+    glutPostRedisplay();
 }
 
 void grc::application::initialize(const grc::size size, const std::string title)

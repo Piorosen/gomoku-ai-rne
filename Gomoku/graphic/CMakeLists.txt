@@ -8,9 +8,11 @@ add_library(${libGraphic} STATIC
             lib/graphic/application.cpp
             lib/graphic/utils/color.cpp
             lib/graphic/utils/imagecollect.cpp
+            
             lib/graphic/components/imageview.cpp
             lib/graphic/components/view.cpp
             lib/graphic/components/button.cpp
+            lib/graphic/components/imagebutton.cpp
 
             lib/graphic/viewcontroller/viewcontroller.cpp
             )
