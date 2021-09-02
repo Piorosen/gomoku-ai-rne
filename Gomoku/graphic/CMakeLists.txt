@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.16.0)
 set(libGraphic "graphic")
 
 find_package(OpenGL REQUIRED)
-find_package(spdlog REQUIRED)
 if (WIN32) 
     
 else()
@@ -46,4 +45,3 @@ else()
     target_link_libraries(${libGraphic} GLUT::GLUT)
 endif()
 target_link_libraries(${libGraphic} ${OPENGL_LIBRARIES})
-target_link_libraries(${libGraphic} spdlog::spdlog)
