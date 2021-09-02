@@ -3,7 +3,6 @@
 #include "design/treeViewController.hpp"
 
 #include <spdlog/spdlog.h>
-#include <glut.h>
 
 #include <filesystem>
 

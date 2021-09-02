@@ -25,16 +25,16 @@ bool grc::gameBoard::render() const
 
         for (int x = 0; x < this->boardSize.width; x++)
         {
-            grc::point start = {this->frame.location.x + (int)((x + 1) * w), this->frame.location.y};
-            grc::point end = {this->frame.location.x + (int)((x + 1) * w), this->frame.location.y + this->frame.size.height};
+            grc::point start = {this->frame.location.x + (int)((x + 1) * w), this->frame.location.y + (int)h};
+            grc::point end = {this->frame.location.x + (int)((x + 1) * w), this->frame.location.y + this->frame.size.height - (int)h};
 
             this->drawLine(start, end, 3, this->lineColor);
         }
 
         for (int y = 0; y < this->boardSize.height; y++)
         {
-            grc::point start = {this->frame.location.x, this->frame.location.y + (int)((y + 1) * h)};
-            grc::point end = {this->frame.location.x + this->frame.size.width, this->frame.location.y + (int)((y + 1) * h)};
+            grc::point start = {this->frame.location.x + (int)w, this->frame.location.y + (int)((y + 1) * h)};
+            grc::point end = {this->frame.location.x + this->frame.size.width - (int)w, this->frame.location.y + (int)((y + 1) * h)};
 
             this->drawLine(start, end, 3, this->lineColor);
         }
