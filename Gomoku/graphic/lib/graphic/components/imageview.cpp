@@ -1,5 +1,5 @@
 #include <graphic/components/imageview.h>
-#include <glut.h>
+#include <GL/glut.h>
 #include <graphic/application.h>
 
 bool grc::imageview::render() const

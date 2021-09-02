@@ -1,7 +1,7 @@
 #define GL_SILENCE_DEPRECATION
 
 #include <graphic/components/gameBoard.h>
-#include <glut.h>
+#include <GL/glut.h>
 
 // int click(int state, int x, int y)
 // {
