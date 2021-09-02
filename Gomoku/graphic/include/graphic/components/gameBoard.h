@@ -11,7 +11,7 @@ namespace grc
         std::vector<std::vector<int>> boardState;
 
     public:
-        gameBoard(grc::rect f, grc::size bsize) : grc::view(f, grc::color(0x885000ff)), boardSize(bsize)
+        gameBoard(grc::rect f, grc::size bsize) : grc::view(f, grc::color(0x854b25ff)), boardSize(bsize)
         {
             for (int i = 0; i < boardSize.height; i++)
             {
@@ -22,10 +22,10 @@ namespace grc
         void setState(grc::point pos, int state);
 
         grc::size boardSize;
-        grc::color lineColor = grc::color(0xffffffff);
+        grc::color lineColor = grc::color(0x36210fff);
         grc::color blackColor = grc::color(0x2f2f2fff);
         grc::color whiteColor = grc::color(0xdcdcdcff);
-        grc::color predictColor = grc::color(0xefef99ff);
+        grc::color predictColor = grc::color(0x0563ffff);
 
         // virtual int click(int state, int x, int y) override;
         virtual bool render() const override;

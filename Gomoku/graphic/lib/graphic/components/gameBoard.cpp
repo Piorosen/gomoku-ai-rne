@@ -2,6 +2,7 @@
 
 #include <graphic/components/gameBoard.h>
 #include <GLUT/glut.h>
+#include <string>
 
 // int click(int state, int x, int y)
 // {
@@ -50,14 +51,17 @@ bool grc::gameBoard::render() const
                 {
                 case 1:
                     this->drawCircle(pos, 15, blackColor);
+                    this->drawBitmapText(std::to_string(y * boardSize.width + x), pos);
                     break;
 
                 case 2:
                     this->drawCircle(pos, 15, whiteColor);
+                    this->drawBitmapText(std::to_string(y * boardSize.width + x), pos);
                     break;
 
                 case 3:
                     this->drawCircle(pos, 15, predictColor);
+                    this->drawBitmapText(std::to_string(y * boardSize.width + x), pos);
                     break;
 
                 default:

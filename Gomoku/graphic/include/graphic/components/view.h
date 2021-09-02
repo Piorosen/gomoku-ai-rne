@@ -40,5 +40,6 @@ namespace grc
         void drawCircle(grc::point pt, float radius, grc::color color) const;
         void drawLine(grc::point x, grc::point y, float thin = 5, grc::color color = grc::color(0xffffffff)) const;
         void drawImage(grc::rect size, unsigned int imageId) const;
+        void drawBitmapText(std::string text, grc::point pos) const;
     };
 }

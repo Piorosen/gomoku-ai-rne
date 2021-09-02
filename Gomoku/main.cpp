@@ -30,14 +30,14 @@ int main(int argc, char **argv)
             switch (key)
             {
             case '1':
-                gameVC->newItem(1);
+                gameVC->newItem("h8 i9 i6 i10 g9 h10 f10 i7 g11 h11 g12 g10 h12 i13 i12 f12 i8 g8 e10 e9 h13 f11 j11 k10 j10");
                 break;
 
             case '2':
-                gameVC->newItem(2);
+                gameVC->newItem("h8,i9,i6 i10 h7,g9 g9,h10 f10 i7 g11 h11 g12 g10 h12 i13 i12 f12 i8 g8 e10 e9 h13 f11 j11 k10 j10");
                 break;
             case '3':
-                gameVC->newItem(3);
+                // gameVC->newItem(3);
                 break;
 
             default:

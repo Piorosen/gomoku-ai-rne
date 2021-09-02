@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <functional>
+#include <sstream>
 
 class gameViewController : public grc::viewcontroller
 {
@@ -21,7 +22,7 @@ private:
         grc::rect f1;
         f1.location = {0, 200};
         f1.size = {500, 500};
-        grc::size s1 = {13, 13};
+        grc::size s1 = {15, 15};
 
         grc::rect f2;
         f2.location = {0, 0};
@@ -47,6 +48,32 @@ private:
         view.push_back(std::static_pointer_cast<grc::view>(p));
         view.push_back(std::static_pointer_cast<grc::view>(p2));
     }
+    std::vector<std::string> split(std::string input, char delimiter)
+    {
+        std::vector<std::string> answer;
+        std::stringstream ss(input);
+        std::string temp;
+
+        while (std::getline(ss, temp, delimiter))
+        {
+            answer.push_back(temp);
+        }
+
+        return answer;
+    }
+    std::string replace_all(
+        std::string message,
+        std::string pattern,
+        std::string replace)
+    {
+        std::string result = message;
+        std::string::size_type pos = 0;
+        while ((pos = result.find(pattern)) != std::string::npos)
+        {
+            result.replace(pos, pattern.size(), replace);
+        }
+        return result;
+    }
 
 public:
     std::function<void(unsigned char)> buttonBack;
@@ -58,10 +85,28 @@ public:
         }
     }
 
-    void newItem(int state)
+    void newItem(std::string stddd)
     {
-        grc::point pos = {rand() % 13, rand() % 13};
-        std::static_pointer_cast<grc::gameBoard>(this->view[0])->setState(pos, state);
+        auto pts = std::static_pointer_cast<grc::gameBoard>(this->view[0]);
+
+        for (int y = 0; y < pts->boardSize.height; y++)
+        {
+            for (int x = 0; x < pts->boardSize.width; x++)
+            {
+                pts->setState({x, y}, 0);
+            }
+        }
+
+        std::string str = stddd;
+        str = replace_all(str, ",", " ");
+        auto p = split(str, ' ');
+        for (int i = 0; i < p.size(); i++)
+        {
+            grc::point pos = {
+                p[i][0] - 'a',
+                atoi(&p[i][1]) - 1};
+            pts->setState(pos, i % 2 + 1);
+        }
     }
 
     gameViewController()

@@ -193,3 +193,25 @@ void grc::view::drawImage(grc::rect size, unsigned int imageId) const
     glEnd();
     glDisable(GL_TEXTURE_2D);
 }
+
+void grc::view::drawBitmapText(std::string text, grc::point pos) const
+{
+    // grc::point lup = {this->frame.location.x, this->frame.location.y + this->frame.size.height};
+    // grc::point rup = {this->frame.location.x + this->frame.size.width, this->frame.location.y + this->frame.size.height};
+    // grc::point lbp = {this->frame.location.x, this->frame.location.y};
+    // grc::point rbp = {this->frame.location.x + this->frame.size.width, this->frame.location.y};
+
+    int fontSize = 3;
+    const auto &displaySize = grc::application::shared->getSize();
+    float displayX = displaySize.width / 2,
+          displayY = -displaySize.height / 2;
+
+    glColor3f(1, 0.65, 0);
+    glRasterPos2f((pos.x - (fontSize * text.size() * 2)) / displayX - 1, (pos.y + (7.5)) / displayY + 1);
+    glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_24, fontSize);
+    for (auto &t : text)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, t);
+    }
+    glColor3f(1, 1, 1);
+}
