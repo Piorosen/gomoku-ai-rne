@@ -1,7 +1,7 @@
 #define GL_SILENCE_DEPRECATION
 
 #include <graphic/components/button.h>
-#include <GL/glut.h>
+#include <GLUT/glut.h>
 
 int grc::button::click(int state, int x, int y)
 {

@@ -3,7 +3,7 @@ set(libGraphic "graphic")
 
 find_package(OpenGL REQUIRED)
 find_package(spdlog REQUIRED)
-
+find_package(GLUT REQUIRED)
 
 add_library(${libGraphic} STATIC 
             lib/graphic/application.cpp
@@ -19,16 +19,26 @@ add_library(${libGraphic} STATIC
             lib/graphic/viewcontroller/viewcontroller.cpp
             )
 
+# ADD_LIBRARY(${libGraphic} SHARED ${VTI_SOURCES})
+
 add_dependencies(${libGraphic} spdlog)   
 add_dependencies(${libGraphic} stb)
-add_dependencies(${libGraphic} freeglut)
+
+if(WIN32)
+    add_dependencies(${libGraphic} freeglut)
+    target_include_directories(${libGraphic} PUBLIC ${FREEGLUT_INCLUDE_DIR})
+else()
+
+endif()
 
 target_include_directories(${libGraphic} PUBLIC ${SPDLOG_INCLUDE_DIR})
 target_include_directories(${libGraphic} PUBLIC ${STB_INCLUDE_DIR})
-target_include_directories(${libGraphic} PUBLIC ${FREEGLUT_INCLUDE_DIR})
-
-# 해당 라이브러리 컴파일 시 사용할 헤더파일 경로
 target_include_directories(${libGraphic} PUBLIC include)
-target_link_libraries(${libGraphic} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})	
+
+if(WIN32)
+    
+else()
+    target_link_libraries(${libGraphic} GLUT::GLUT)
+endif()
+target_link_libraries(${libGraphic} ${OPENGL_LIBRARIES})
 target_link_libraries(${libGraphic} spdlog::spdlog)
-# target_link_libraries(${libGraphic} ${GLUT_LIBRARY})
