@@ -11,6 +11,7 @@ namespace grc
         std::vector<std::vector<int>> boardState;
 
     public:
+        int counting = 0;
         gameBoard(grc::rect f, grc::size bsize) : grc::view(f, grc::color(0x854b25ff)), boardSize(bsize)
         {
             for (int i = 0; i < boardSize.height; i++)
@@ -29,6 +30,8 @@ namespace grc
 
         // virtual int click(int state, int x, int y) override;
         virtual bool render() const override;
+
+        void clear();
 
     protected:
     };

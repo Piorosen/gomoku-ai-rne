@@ -11,7 +11,22 @@
 
 void grc::gameBoard::setState(grc::point pos, int state)
 {
-    boardState[pos.y][pos.x] = state;
+    counting++;
+    boardState[pos.y][pos.x] = state + (counting * 100000);
+    glutPostRedisplay();
+}
+
+void grc::gameBoard::clear()
+{
+    for (int y = 0; y < boardSize.height; y++)
+    {
+        for (int x = 0; x < boardSize.width; x++)
+        {
+            boardState[y][x] = 0;
+        }
+    }
+    counting = 0;
+
     glutPostRedisplay();
 }
 
@@ -47,21 +62,21 @@ bool grc::gameBoard::render() const
                 grc::point pos = {this->frame.location.x + (int)((x + 1) * w),
                                   this->frame.location.y + (int)((y + 1) * h)};
 
-                switch (boardState[y][x])
+                switch (boardState[y][x] % 100000)
                 {
                 case 1:
                     this->drawCircle(pos, 15, blackColor);
-                    this->drawBitmapText(std::to_string(y * boardSize.width + x), pos);
+                    this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
                     break;
 
                 case 2:
                     this->drawCircle(pos, 15, whiteColor);
-                    this->drawBitmapText(std::to_string(y * boardSize.width + x), pos);
+                    this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
                     break;
 
                 case 3:
                     this->drawCircle(pos, 15, predictColor);
-                    this->drawBitmapText(std::to_string(y * boardSize.width + x), pos);
+                    this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
                     break;
 
                 default:

@@ -206,7 +206,7 @@ void grc::view::drawBitmapText(std::string text, grc::point pos) const
     float displayX = displaySize.width / 2,
           displayY = -displaySize.height / 2;
 
-    glColor3f(1, 0.65, 0);
+    glColor3f(1, 0, 0);
     glRasterPos2f((pos.x - (fontSize * text.size() * 2)) / displayX - 1, (pos.y + (7.5)) / displayY + 1);
     glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_24, fontSize);
     for (auto &t : text)

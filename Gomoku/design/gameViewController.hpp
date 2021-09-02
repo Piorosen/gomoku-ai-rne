@@ -88,14 +88,7 @@ public:
     void newItem(std::string stddd)
     {
         auto pts = std::static_pointer_cast<grc::gameBoard>(this->view[0]);
-
-        for (int y = 0; y < pts->boardSize.height; y++)
-        {
-            for (int x = 0; x < pts->boardSize.width; x++)
-            {
-                pts->setState({x, y}, 0);
-            }
-        }
+        pts->clear();
 
         std::string str = stddd;
         str = replace_all(str, ",", " ");
