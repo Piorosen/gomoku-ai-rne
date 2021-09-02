@@ -3,7 +3,11 @@ set(libGraphic "graphic")
 
 find_package(OpenGL REQUIRED)
 find_package(spdlog REQUIRED)
-find_package(GLUT REQUIRED)
+if (WIN32) 
+    
+else()
+    find_package(GLUT REQUIRED)
+endif()
 
 add_library(${libGraphic} STATIC 
             lib/graphic/application.cpp
