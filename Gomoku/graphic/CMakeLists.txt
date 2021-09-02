@@ -27,6 +27,7 @@ add_dependencies(${libGraphic} stb)
 if(WIN32)
     add_dependencies(${libGraphic} freeglut)
     target_include_directories(${libGraphic} PUBLIC ${FREEGLUT_INCLUDE_DIR})
+    target_link_directories(${libGraphic} PUBLIC ${FREEGLUT_LIBRARY_DIR})
 else()
 
 endif()
