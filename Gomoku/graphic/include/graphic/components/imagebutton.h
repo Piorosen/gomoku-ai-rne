@@ -1,6 +1,7 @@
 #pragma once
 #include <graphic/components/view.h>
 #include <optional>
+#include <functional>
 
 namespace grc
 {
