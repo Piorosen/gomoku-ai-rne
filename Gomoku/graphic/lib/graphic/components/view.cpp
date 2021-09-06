@@ -30,7 +30,6 @@ int grc::view::click(int state, int x, int y)
     if (this->frame.location.x < x && x < this->frame.location.x + this->frame.size.width &&
         this->frame.location.y < y && y < this->frame.location.y + this->frame.size.height)
     {
-        spdlog::info("[{}, {}, {}]", state, x, y);
         return 2;
     }
     else
