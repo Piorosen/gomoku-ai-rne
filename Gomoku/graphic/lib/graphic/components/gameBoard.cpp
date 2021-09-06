@@ -3,14 +3,48 @@
 #include <graphic/components/gameBoard.h>
 #include <GLUT/glut.h>
 #include <string>
+#include <spdlog/spdlog.h>
 
-// int click(int state, int x, int y)
-// {
-//     return grc::view::click(state, x, y);
-// }
+int grc::gameBoard::click(int state, int x, int y)
+{
+    auto p = grc::view::click(state, x, y);
+
+    // keydown
+    if (state == 0)
+    {
+        float ptX = x - this->frame.location.x;
+        float ptY = y - this->frame.location.y;
+
+        float sizeX = this->frame.size.width / (float)(this->boardSize.width + 1);
+        float sizeY = this->frame.size.height / (float)(this->boardSize.height + 1);
+
+        ptX += sizeX / 2;
+        ptY += sizeY / 2;
+
+        grc::point pt = {(int)(ptX / sizeX), (int)(ptY / sizeY)};
+        grc::point convPt = {std::min(std::max(0, pt.x - 1), this->boardSize.width - 1),
+                             std::min(std::max(0, pt.y - 1), this->boardSize.height - 1)};
+
+        spdlog::info("Board info : Click [{}, {}]", pt.x, pt.y);
+
+        if (mode == 0)
+        {
+            this->setState(convPt, this->color + 1);
+            this->color = !this->color;
+        }
+    }
+
+    return p;
+}
 
 void grc::gameBoard::setState(grc::point pos, int state)
 {
+    if (boardState[pos.y][pos.x] > 0)
+    {
+        spdlog::warn("Board Info : setState(error point) : [{}, {}]", pos.x, pos.y);
+        return;
+    }
+
     counting++;
     boardState[pos.y][pos.x] = state + (counting * 100000);
     glutPostRedisplay();
@@ -26,7 +60,7 @@ void grc::gameBoard::clear()
         }
     }
     counting = 0;
-
+    spdlog::info("Board info : Clear");
     glutPostRedisplay();
 }
 

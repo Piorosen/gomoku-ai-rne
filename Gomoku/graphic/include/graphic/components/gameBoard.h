@@ -9,6 +9,20 @@ namespace grc
     {
     private:
         std::vector<std::vector<int>> boardState;
+        /**
+         * @brief 
+         * 게임 모드 타입 !
+         * 0 : 일반 게임 모드
+         * 1 : AI 추적 모드
+         */
+        int mode = 0;
+
+        /**
+         * @brief 
+         * 0 : 흑 차례
+         * 1 : 백 차례
+         */
+        int color = 0;
 
     public:
         int counting = 0;
@@ -30,6 +44,7 @@ namespace grc
 
         // virtual int click(int state, int x, int y) override;
         virtual bool render() const override;
+        virtual int click(int state, int x, int y) override;
 
         void clear();
 
