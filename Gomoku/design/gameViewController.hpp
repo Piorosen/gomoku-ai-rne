@@ -85,6 +85,11 @@ public:
         }
     }
 
+    void clear()
+    {
+        auto pts = std::static_pointer_cast<grc::gameBoard>(this->view[0]);
+        pts->clear();
+    }
     void newItem(std::string stddd)
     {
         auto pts = std::static_pointer_cast<grc::gameBoard>(this->view[0]);

@@ -62,6 +62,8 @@ void grc::gameBoard::clear()
             boardState[y][x] = 0;
         }
     }
+    this->mode = 0;
+    this->color = 0;
     counting = 0;
     spdlog::info("Board info : Clear");
     glutPostRedisplay();
