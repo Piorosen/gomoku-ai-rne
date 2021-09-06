@@ -29,25 +29,28 @@ int grc::gameBoard::click(int state, int x, int y)
 
         if (mode == 0)
         {
-            this->setState(convPt, this->color + 1);
-            this->color = !this->color;
+            if (this->setState(convPt, this->color + 1))
+            {
+                this->color = !this->color;
+            }
         }
     }
 
     return p;
 }
 
-void grc::gameBoard::setState(grc::point pos, int state)
+bool grc::gameBoard::setState(grc::point pos, int state)
 {
     if (boardState[pos.y][pos.x] > 0)
     {
         spdlog::warn("Board Info : setState(error point) : [{}, {}]", pos.x, pos.y);
-        return;
+        return false;
     }
 
     counting++;
     boardState[pos.y][pos.x] = state + (counting * 100000);
     glutPostRedisplay();
+    return true;
 }
 
 void grc::gameBoard::clear()

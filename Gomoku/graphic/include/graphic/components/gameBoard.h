@@ -34,7 +34,7 @@ namespace grc
             }
         }
 
-        void setState(grc::point pos, int state);
+        bool setState(grc::point pos, int state);
 
         grc::size boardSize;
         grc::color lineColor = grc::color(0x36210fff);
