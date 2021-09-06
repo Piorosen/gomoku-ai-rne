@@ -9,6 +9,11 @@ int grc::gameBoard::click(int state, int x, int y)
 {
     auto p = grc::view::click(state, x, y);
 
+    if (p != 2)
+    {
+        return p;
+    }
+
     // keydown
     if (state == 0)
     {
