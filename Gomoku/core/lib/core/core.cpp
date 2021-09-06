@@ -1,10 +1,20 @@
 #include <core/core.h>
-#include <spdlog/spdlog.h>
 #include <rapidjson/document.h>
 
-int haha(int a, int b)
-{
-    spdlog::info("asdsa");
+std::unique_ptr<core::ai> core::ai::shared = std::make_unique<core::ai>();
 
-    return 20;
+void core::ai::newAI(std::string path)
+{
+}
+
+void core::ai::loadAI(std::string path)
+{
+}
+
+void core::ai::saveAI(std::string path)
+{
+}
+
+void core::ai::appendAI(core::sqeuence sequence, core::color winner)
+{
 }
