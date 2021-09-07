@@ -101,10 +101,9 @@ namespace core
                     continue;
                 }
 
-                if (dataSequence > 1000)
+                if (dataSequence % 1000 == 0)
                 {
-                    spdlog::info("{} 처리 됨.", dataSequence);
-                    return;
+                    spdlog::info("load data : [{}]", dataSequence);
                 }
                 std::string str = item["board"].GetString();
                 auto list = split(str, ',');

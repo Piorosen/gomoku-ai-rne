@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <rapidjson/document.h>
 
 namespace core
 {
@@ -29,6 +30,8 @@ namespace core
     class ai
     {
     private:
+        core::node getNode(rapidjson::Value &data);
+
     public:
         core::node root;
         static std::unique_ptr<core::ai> shared;

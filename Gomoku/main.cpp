@@ -10,9 +10,10 @@
 
 int main(int argc, char **argv)
 {
+    // core::ai::shared->loadAI("/Users/aoikazto/Downloads/ai.json");
     core::jsonManager manager;
     manager.reLoad("/Users/aoikazto/Downloads/games.json");
-    // manager.saveJson("/Users/aoikazto/Downloads/ai.json");
+    manager.saveJson("/Users/aoikazto/Downloads/ai.json");
 
     for (int i = 0; i < argc; i++)
     {
