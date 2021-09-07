@@ -2,12 +2,18 @@
 #include "design/gameViewController.hpp"
 #include "design/treeViewController.hpp"
 
+#include <core/jsonManager.hpp>
+
 #include <spdlog/spdlog.h>
 
 #include <filesystem>
 
 int main(int argc, char **argv)
 {
+    core::jsonManager manager;
+    manager.reLoad("/Users/aoikazto/Downloads/games.json");
+    // manager.saveJson("/Users/aoikazto/Downloads/ai.json");
+
     for (int i = 0; i < argc; i++)
     {
         spdlog::info("{} : \"{}\"", i, argv[i]);
@@ -17,6 +23,22 @@ int main(int argc, char **argv)
     grc::application::shared->initialize({500, 700}, "오목 : 그것이 알고 싶다.");
     decltype(auto) mainVC = std::make_shared<mainViewController>();
     decltype(auto) gameVC = std::make_shared<gameViewController>();
+
+    gameVC->boardChanged = [&gameVC](std::vector<grc::point> *list)
+    {
+        core::sqeuence pt;
+        for (auto &item : *list)
+        {
+            pt.push_back({item.x, item.y});
+        }
+
+        auto itemList = core::ai::shared->getNextNode(pt);
+        gameVC->clear(1);
+        for (auto &item : itemList)
+        {
+            gameVC->setPredict({item.point.x, item.point.y});
+        }
+    };
 
     gameVC->buttonBack = [&mainVC, &gameVC](unsigned char key)
     {
@@ -29,20 +51,13 @@ int main(int argc, char **argv)
         {
             switch (key)
             {
-            case '1':
-                gameVC->newItem("h8 i9 i6 i10 g9 h10 f10 i7 g11 h11 g12 g10 h12 i13 i12 f12 i8 g8 e10 e9 h13 f11 j11 k10 j10");
-                break;
-
-            case '2':
-                gameVC->newItem("h8,i9,i6 i10 h7,g9 g9,h10 f10 i7 g11 h11 g12 g10 h12 i13 i12 f12 i8 g8 e10 e9 h13 f11 j11 k10 j10");
-                break;
             case '3':
                 gameVC->clear();
                 break;
 
             default:
                 break;
-            }
+            };
         }
     };
 
@@ -55,6 +70,8 @@ int main(int argc, char **argv)
     mainVC->buttonNewGame = [&gameVC]()
     {
         spdlog::info("mainVC : button new game");
+        gameVC->clear();
+
         grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameVC));
     };
 

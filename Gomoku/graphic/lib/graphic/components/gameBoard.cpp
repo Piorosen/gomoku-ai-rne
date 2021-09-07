@@ -46,30 +46,65 @@ int grc::gameBoard::click(int state, int x, int y)
 
 bool grc::gameBoard::setState(grc::point pos, int state)
 {
-    if (boardState[pos.y][pos.x] > 0)
-    {
-        spdlog::warn("Board Info : setState(error point) : [{}, {}]", pos.x, pos.y);
-        return false;
-    }
+    // if (boardState[pos.y][pos.x] )
+    // {
+    // spdlog::warn("Board Info : setState(error point) : [{}, {}]", pos.x, pos.y);
+    // return false;
+    // }
 
     counting++;
     boardState[pos.y][pos.x] = state + (counting * 100000);
+    point.push_back(pos);
+    if (boardChanged)
+    {
+        boardChanged(&this->point);
+    }
     glutPostRedisplay();
     return true;
 }
 
-void grc::gameBoard::clear()
+bool grc::gameBoard::setPredict(grc::point pos, int state)
 {
-    for (int y = 0; y < boardSize.height; y++)
+    boardState[pos.y][pos.x] = state;
+    glutPostRedisplay();
+    return true;
+}
+
+void grc::gameBoard::clear(int mode)
+{
+
+    if (mode == 0)
     {
-        for (int x = 0; x < boardSize.width; x++)
+        this->mode = 0;
+        this->color = 0;
+        point.clear();
+        counting = 0;
+        for (int y = 0; y < boardSize.height; y++)
         {
-            boardState[y][x] = 0;
+            for (int x = 0; x < boardSize.width; x++)
+            {
+                boardState[y][x] = 0;
+            }
+        }
+        if (boardChanged)
+        {
+            boardChanged(&this->point);
         }
     }
-    this->mode = 0;
-    this->color = 0;
-    counting = 0;
+    else
+    {
+        for (int y = 0; y < boardSize.height; y++)
+        {
+            for (int x = 0; x < boardSize.width; x++)
+            {
+                if (boardState[y][x] == 3)
+                {
+                    boardState[y][x] = 0;
+                }
+            }
+        }
+    }
+
     spdlog::info("Board info : Clear");
     glutPostRedisplay();
 }
@@ -110,17 +145,27 @@ bool grc::gameBoard::render() const
                 {
                 case 1:
                     this->drawCircle(pos, 15, blackColor);
-                    this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
+                    if (boardState[y][x] > 100000)
+                    {
+                        this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
+                    }
+
                     break;
 
                 case 2:
                     this->drawCircle(pos, 15, whiteColor);
-                    this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
+                    if (boardState[y][x] > 100000)
+                    {
+                        this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
+                    }
                     break;
 
                 case 3:
                     this->drawCircle(pos, 15, predictColor);
-                    this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
+                    if (boardState[y][x] > 100000)
+                    {
+                        this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
+                    }
                     break;
 
                 default:

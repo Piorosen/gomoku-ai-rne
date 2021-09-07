@@ -16,26 +16,28 @@ namespace core
         int x, y;
     };
 
-    using sqeuence = std::vector<point>;
-
     struct node
     {
-        std::vector<std::unique_ptr<node>> next;
+        std::vector<node> next;
 
         core::point point = {0, 0};
         double score = 0;
     };
 
+    using sqeuence = std::vector<core::point>;
+
     class ai
     {
     private:
     public:
+        core::node root;
         static std::unique_ptr<core::ai> shared;
 
+        std::vector<core::node> getNextNode(core::sqeuence seqeuence) const;
         void newAI(std::string path);
         void loadAI(std::string path);
         void saveAI(std::string path);
 
-        void appendAI(core::sqeuence sequence, core::color winner);
+        void appendAI(core::sqeuence sequence, core::color winner, double discountRate = 0.5);
     };
 }

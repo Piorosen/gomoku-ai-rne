@@ -23,6 +23,14 @@ private:
         f1.location = {0, 200};
         f1.size = {500, 500};
         grc::size s1 = {15, 15};
+        auto p1 = std::make_shared<grc::gameBoard>(f1, s1);
+        p1->boardChanged = [this](std::vector<grc::point> *list)
+        {
+            if (this->boardChanged)
+            {
+                this->boardChanged(list);
+            }
+        };
 
         grc::rect f2;
         f2.location = {0, 0};
@@ -44,7 +52,7 @@ private:
             }
         };
 
-        view.push_back(std::make_shared<grc::gameBoard>(f1, s1));
+        view.push_back(std::static_pointer_cast<grc::view>(p1));
         view.push_back(std::static_pointer_cast<grc::view>(p));
         view.push_back(std::static_pointer_cast<grc::view>(p2));
     }
@@ -77,6 +85,8 @@ private:
 
 public:
     std::function<void(unsigned char)> buttonBack;
+    std::function<void(std::vector<grc::point> *)> boardChanged;
+
     virtual void keyboardEvent(unsigned char key, int x, int y) const override
     {
         if (buttonBack)
@@ -84,27 +94,20 @@ public:
             buttonBack(key);
         }
     }
-
-    void clear()
+    bool setPredict(grc::point pos)
     {
-        auto pts = std::static_pointer_cast<grc::gameBoard>(this->view[0]);
-        pts->clear();
+        return std::static_pointer_cast<grc::gameBoard>(this->view[0])->setPredict(pos, 3);
     }
-    void newItem(std::string stddd)
+
+    bool setState(grc::point pos, int state)
+    {
+        return std::static_pointer_cast<grc::gameBoard>(this->view[0])->setState(pos, state);
+    }
+
+    void clear(int mode = 0)
     {
         auto pts = std::static_pointer_cast<grc::gameBoard>(this->view[0]);
-        pts->clear();
-
-        std::string str = stddd;
-        str = replace_all(str, ",", " ");
-        auto p = split(str, ' ');
-        for (int i = 0; i < p.size(); i++)
-        {
-            grc::point pos = {
-                p[i][0] - 'a',
-                atoi(&p[i][1]) - 1};
-            pts->setState(pos, i % 2 + 1);
-        }
+        pts->clear(mode);
     }
 
     gameViewController()

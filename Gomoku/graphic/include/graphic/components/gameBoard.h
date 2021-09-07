@@ -9,6 +9,7 @@ namespace grc
     {
     private:
         std::vector<std::vector<int>> boardState;
+        std::vector<grc::point> point;
         /**
          * @brief 
          * 게임 모드 타입 !
@@ -34,7 +35,10 @@ namespace grc
             }
         }
 
+        std::function<void(std::vector<grc::point> *state)> boardChanged;
+
         bool setState(grc::point pos, int state);
+        bool setPredict(grc::point pos, int state);
 
         grc::size boardSize;
         grc::color lineColor = grc::color(0x36210fff);
@@ -46,7 +50,7 @@ namespace grc
         virtual bool render() const override;
         virtual int click(int state, int x, int y) override;
 
-        void clear();
+        void clear(int mode = 0);
 
     protected:
     };
