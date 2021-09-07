@@ -94,9 +94,9 @@ public:
             buttonBack(key);
         }
     }
-    bool setPredict(grc::point pos)
+    bool setPredict(grc::point pos, int text = 0)
     {
-        return std::static_pointer_cast<grc::gameBoard>(this->view[0])->setPredict(pos, 3);
+        return std::static_pointer_cast<grc::gameBoard>(this->view[0])->setPredict(pos, 3, text);
     }
 
     bool setState(grc::point pos, int state)

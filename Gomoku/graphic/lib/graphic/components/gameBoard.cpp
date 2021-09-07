@@ -63,9 +63,9 @@ bool grc::gameBoard::setState(grc::point pos, int state)
     return true;
 }
 
-bool grc::gameBoard::setPredict(grc::point pos, int state)
+bool grc::gameBoard::setPredict(grc::point pos, int state, int text)
 {
-    boardState[pos.y][pos.x] = state;
+    boardState[pos.y][pos.x] = state + (text * 100000);
     glutPostRedisplay();
     return true;
 }
@@ -105,7 +105,7 @@ void grc::gameBoard::clear(int mode)
         }
     }
 
-    spdlog::info("Board info : Clear");
+    spdlog::info("Board info : Clear [{}]", mode);
     glutPostRedisplay();
 }
 

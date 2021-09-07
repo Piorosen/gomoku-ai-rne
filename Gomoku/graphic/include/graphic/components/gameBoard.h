@@ -38,7 +38,7 @@ namespace grc
         std::function<void(std::vector<grc::point> *state)> boardChanged;
 
         bool setState(grc::point pos, int state);
-        bool setPredict(grc::point pos, int state);
+        bool setPredict(grc::point pos, int state, int text = 0);
 
         grc::size boardSize;
         grc::color lineColor = grc::color(0x36210fff);

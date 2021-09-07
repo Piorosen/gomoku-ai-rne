@@ -17,21 +17,21 @@ std::vector<core::node> core::ai::getNextNode(core::sqeuence sequence) const
     for (int seqIdx = 0; seqIdx < sequence.size(); seqIdx++)
     {
         auto seq = sequence[seqIdx];
-        auto ret = std::find_if(node->next.begin(), node->next.end(), [&seq](core::node item)
-                                {
-                                    if (item.point.x == seq.x && item.point.y == seq.y)
-                                    {
-                                        return true;
-                                    }
-                                    else
-                                    {
-                                        return false;
-                                    }
-                                });
+        int idx = -1;
+        for (int i = 0; i < node->next.size(); i++)
+        {
+            if (node->next[i].point.x == seq.x && node->next[i].point.y == seq.y)
+            {
+                idx = i;
+                break;
+            }
+            else
+            {
+                continue;
+            }
+        }
 
-        auto index = (ret - node->next.begin());
-
-        node = &node->next[index];
+        node = &node->next[idx];
     }
     return node->next;
 }
@@ -74,6 +74,7 @@ void core::ai::loadAI(std::string path)
     {
         spdlog::info("core : pre learner load fail [{}]", path);
     }
+    spdlog::info("ai parisng finished : [{}]", path);
 
     for (auto &item : d.GetArray())
     {

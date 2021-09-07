@@ -7,13 +7,14 @@
 #include <spdlog/spdlog.h>
 
 #include <filesystem>
+#include <algorithm>
 
 int main(int argc, char **argv)
 {
-    // core::ai::shared->loadAI("/Users/aoikazto/Downloads/ai.json");
-    core::jsonManager manager;
-    manager.reLoad("/Users/aoikazto/Downloads/games.json");
-    manager.saveJson("/Users/aoikazto/Downloads/ai.json");
+    core::ai::shared->loadAI("/Users/aoikazto/Downloads/ai.json");
+    // core::jsonManager manager;
+    // manager.reLoad("/Users/aoikazto/Downloads/games.json");
+    // manager.saveJson("/Users/aoikazto/Downloads/ai.json");
 
     for (int i = 0; i < argc; i++)
     {
@@ -35,9 +36,13 @@ int main(int argc, char **argv)
 
         auto itemList = core::ai::shared->getNextNode(pt);
         gameVC->clear(1);
-        for (auto &item : itemList)
+
+        std::sort(itemList.begin(), itemList.end(), [](core::node a, core::node b)
+                  { return a.score - b.score; });
+
+        for (int i = 0; i < itemList.size(); i++)
         {
-            gameVC->setPredict({item.point.x, item.point.y});
+            gameVC->setPredict({itemList[i].point.x, itemList[i].point.y}, i + 1);
         }
     };
 
