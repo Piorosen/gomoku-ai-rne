@@ -11,11 +11,10 @@
 
 int main(int argc, char **argv)
 {
-    core::ai::shared->loadAI("/Users/aoikazto/Downloads/ai.json");
+    core::ai::shared->loadAI("./resources/ai/ai.json");
     // core::jsonManager manager;
-    // manager.reLoad("/Users/aoikazto/Downloads/games.json");
-    // manager.saveJson("/Users/aoikazto/Downloads/ai.json");
-
+    // manager.reLoad("./resources/ai/games.json");
+    // manager.saveJson("./resources/ai/ai.json");
     for (int i = 0; i < argc; i++)
     {
         spdlog::info("{} : \"{}\"", i, argv[i]);
@@ -28,6 +27,7 @@ int main(int argc, char **argv)
 
     gameVC->boardChanged = [&gameVC](std::vector<grc::point> *list)
     {
+        spdlog::info("update board changed");
         core::sqeuence pt;
         for (auto &item : *list)
         {

@@ -31,7 +31,15 @@ std::vector<core::node> core::ai::getNextNode(core::sqeuence sequence) const
             }
         }
 
-        node = &node->next[idx];
+        if (idx == -1)
+        {
+            spdlog::critical("not found next Node");
+            return std::vector<core::node>();
+        }
+        else
+        {
+            node = &node->next[idx];
+        }
     }
     return node->next;
 }

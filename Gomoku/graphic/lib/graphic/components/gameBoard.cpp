@@ -46,11 +46,12 @@ int grc::gameBoard::click(int state, int x, int y)
 
 bool grc::gameBoard::setState(grc::point pos, int state)
 {
-    // if (boardState[pos.y][pos.x] )
-    // {
-    // spdlog::warn("Board Info : setState(error point) : [{}, {}]", pos.x, pos.y);
-    // return false;
-    // }
+    int value = boardState[pos.y][pos.x] % 100000;
+    if (value == 1 || value == 2)
+    {
+        spdlog::warn("Board Info : setState(error point) : [{}, {}]", pos.x, pos.y);
+        return false;
+    }
 
     counting++;
     boardState[pos.y][pos.x] = state + (counting * 100000);
@@ -59,12 +60,17 @@ bool grc::gameBoard::setState(grc::point pos, int state)
     {
         boardChanged(&this->point);
     }
-    glutPostRedisplay();
     return true;
 }
 
 bool grc::gameBoard::setPredict(grc::point pos, int state, int text)
 {
+    if (boardState[pos.y][pos.x])
+    {
+        spdlog::warn("Board Info : setState(error point) : [{}, {}, {}]", boardState[pos.y][pos.x], pos.x, pos.y);
+        // return false;
+    }
+
     boardState[pos.y][pos.x] = state + (text * 100000);
     glutPostRedisplay();
     return true;
@@ -97,7 +103,7 @@ void grc::gameBoard::clear(int mode)
         {
             for (int x = 0; x < boardSize.width; x++)
             {
-                if (boardState[y][x] == 3)
+                if (boardState[y][x] % 100000 == 3)
                 {
                     boardState[y][x] = 0;
                 }
@@ -113,6 +119,8 @@ bool grc::gameBoard::render() const
 {
     if (!getHidden())
     {
+        spdlog::info("rendering game board");
+
         this->drawRect(this->frame, this->background);
 
         float w = (float)this->frame.size.width / (this->boardSize.width + 1);

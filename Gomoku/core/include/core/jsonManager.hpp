@@ -111,7 +111,7 @@ namespace core
 
                 for (auto &li : list)
                 {
-                    core::point pt = {li[0] - 'a', atoi(&li[1])};
+                    core::point pt = {li[0] - 'a', atoi(&li[1]) - 1};
                     seq.push_back(pt);
                 }
                 auto r = std::strcmp(item["winner"].GetString(), "black") == 0;
