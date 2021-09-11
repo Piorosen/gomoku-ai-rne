@@ -2,6 +2,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <optional>
+
 #include <rapidjson/document.h>
 
 namespace core
@@ -36,7 +38,7 @@ namespace core
         core::node root;
         static std::unique_ptr<core::ai> shared;
 
-        std::vector<core::node> getNextNode(core::sqeuence seqeuence) const;
+        const std::vector<core::node> *getNextNode(core::sqeuence seqeuence) const;
         void newAI(std::string path);
         void loadAI(std::string path);
         void saveAI(std::string path);

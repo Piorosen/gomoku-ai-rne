@@ -27,23 +27,32 @@ int main(int argc, char **argv)
 
     gameVC->boardChanged = [&gameVC](std::vector<grc::point> *list)
     {
+        spdlog::info("time Check Start");
         spdlog::info("update board changed");
         core::sqeuence pt;
         for (auto &item : *list)
         {
             pt.push_back({item.x, item.y});
         }
+        spdlog::info("time list to sequence");
+        gameVC->clear(1);
+        spdlog::info("time gameVC Clear 1");
 
         auto itemList = core::ai::shared->getNextNode(pt);
-        gameVC->clear(1);
-
-        std::sort(itemList.begin(), itemList.end(), [](core::node a, core::node b)
-                  { return a.score - b.score; });
-
-        for (int i = 0; i < itemList.size(); i++)
+        spdlog::info("time get Next Node");
+        if (itemList != nullptr)
         {
-            gameVC->setPredict({itemList[i].point.x, itemList[i].point.y}, i + 1);
+            // std::sort(itemList->begin(), itemList->end(), [](core::node &a, core::node &b)
+            //           { return a.score - b.score; });
+            // spdlog::info("time sort");
+
+            for (int i = 0; i < itemList->size(); i++)
+            {
+                gameVC->setPredict({itemList->at(i).point.x, itemList->at(i).point.y}, i + 1);
+            }
         }
+
+        spdlog::info("time Check End");
     };
 
     gameVC->buttonBack = [&mainVC, &gameVC](unsigned char key)

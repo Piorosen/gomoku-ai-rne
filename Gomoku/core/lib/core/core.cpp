@@ -10,8 +10,10 @@
 
 std::unique_ptr<core::ai> core::ai::shared = std::make_unique<core::ai>();
 
-std::vector<core::node> core::ai::getNextNode(core::sqeuence sequence) const
+const std::vector<core::node> *core::ai::getNextNode(core::sqeuence sequence) const
 {
+    spdlog::info("time get Next Node");
+
     auto *node = &this->root;
 
     for (int seqIdx = 0; seqIdx < sequence.size(); seqIdx++)
@@ -34,14 +36,16 @@ std::vector<core::node> core::ai::getNextNode(core::sqeuence sequence) const
         if (idx == -1)
         {
             spdlog::critical("not found next Node");
-            return std::vector<core::node>();
+            return nullptr;
         }
         else
         {
             node = &node->next[idx];
         }
     }
-    return node->next;
+    spdlog::info("time get Next Node retuning");
+
+    return &node->next;
 }
 
 void core::ai::newAI(std::string path)

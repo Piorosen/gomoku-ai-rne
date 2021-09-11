@@ -78,6 +78,7 @@ bool grc::gameBoard::setPredict(grc::point pos, int state, int text)
 
 void grc::gameBoard::clear(int mode)
 {
+    spdlog::info("Board info : Clear [{}]", mode);
 
     if (mode == 0)
     {
@@ -111,7 +112,6 @@ void grc::gameBoard::clear(int mode)
         }
     }
 
-    spdlog::info("Board info : Clear [{}]", mode);
     glutPostRedisplay();
 }
 
