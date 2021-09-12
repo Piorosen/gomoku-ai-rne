@@ -1,5 +1,9 @@
 #include <graphic/components/imageview.h>
+#if defined(_WIN32)
+#include <GL/glut.h>
+#else
 #include <GLUT/glut.h>
+#endif
 #include <graphic/application.h>
 
 bool grc::imageview::render() const

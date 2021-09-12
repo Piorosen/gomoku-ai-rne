@@ -1,13 +1,25 @@
 #include <graphic/utils/imagecollect.h>
+#if defined(_WIN32) 
+#include <GL/glew.h>
+#include <GL/glut.h>
+#else
 #include <GLUT/glut.h>
+#endif
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <spdlog/spdlog.h>
 
 std::unique_ptr<grc::imagecollect> grc::imagecollect::shared = std::make_unique<grc::imagecollect>();
 
+static int imagecollect_counter = 0;
 int grc::imagecollect::add(std::string file)
 {
+    if (imagecollect_counter == 0) {
+        glewInit();
+        imagecollect_counter++;
+    }
+
     int width, height, channels;
 
     auto buffer = stbi_load(file.c_str(), &width, &height, &channels, STBI_rgb_alpha);

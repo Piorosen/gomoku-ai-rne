@@ -4,7 +4,11 @@
 
 #include <graphic/application.h>
 #include <graphic/components/view.h>
+#if defined(_WIN32)
+#include <GL/glut.h>
+#else
 #include <GLUT/glut.h>
+#endif
 #include <spdlog/spdlog.h>
 
 // 0 : 클릭 X

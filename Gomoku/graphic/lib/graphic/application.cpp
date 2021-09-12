@@ -1,5 +1,9 @@
 #include <graphic/application.h>
+#if defined(_WIN32)
+#include <GL/glut.h>
+#else
 #include <GLUT/glut.h>
+#endif
 #include <spdlog/spdlog.h>
 
 std::unique_ptr<grc::application> grc::application::shared = std::make_unique<grc::application>();

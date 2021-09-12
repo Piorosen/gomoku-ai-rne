@@ -1,7 +1,11 @@
 #define GL_SILENCE_DEPRECATION
 
 #include <graphic/components/gameBoard.h>
+#if defined(_WIN32)
+#include <GL/glut.h>
+#else
 #include <GLUT/glut.h>
+#endif
 #include <string>
 #include <spdlog/spdlog.h>
 

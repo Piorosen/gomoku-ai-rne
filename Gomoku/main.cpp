@@ -6,6 +6,7 @@
 
 #include <spdlog/spdlog.h>
 
+#include <string>
 #include <filesystem>
 #include <algorithm>
 
@@ -19,8 +20,8 @@ int main(int argc, char **argv)
     {
         spdlog::info("{} : \"{}\"", i, argv[i]);
     }
-
-    spdlog::info("{}", std::filesystem::current_path().c_str());
+    
+    spdlog::info("{}", std::filesystem::current_path().u8string());
     grc::application::shared->initialize({500, 700}, "오목 : 그것이 알고 싶다.");
     decltype(auto) mainVC = std::make_shared<mainViewController>();
     decltype(auto) gameVC = std::make_shared<gameViewController>();

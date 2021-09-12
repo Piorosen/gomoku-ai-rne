@@ -2,6 +2,7 @@
 #include <graphic/utils/rect.h>
 #include <graphic/utils/color.h>
 
+#include <string>
 #include <vector>
 #include <memory>
 
