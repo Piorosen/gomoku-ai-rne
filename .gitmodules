@@ -1,9 +1,9 @@
-[submodule "stb"]
+[submodule "Gomoku/ThirdParty/stb"]
 	path = Gomoku/ThirdParty/stb
 	url = https://github.com/nothings/stb.git
-[submodule "rapidjson"]
+[submodule "Gomoku/ThirdParty/rapidjson"]
 	path = Gomoku/ThirdParty/rapidjson
 	url = https://github.com/Tencent/rapidjson.git
-[submodule "spdlog"]
+[submodule "Gomoku/ThirdParty/spdlog"]
 	path = Gomoku/ThirdParty/spdlog
 	url = https://github.com/gabime/spdlog.git
