@@ -13,6 +13,12 @@ include(${CMAKE_SOURCE_DIR}/ThirdParty/rapidjson.cmake)
 include(${CMAKE_SOURCE_DIR}/ThirdParty/spdlog.cmake)
 include(${CMAKE_SOURCE_DIR}/ThirdParty/stb.cmake)
 
+if(WIN32)
+	include(${CMAKE_SOURCE_DIR}/ThirdParty/freeglut.cmake)
+	MESSAGE(STATUS "FreeGLUT PATH: " ${FREEGLUT_INCLUDE_DIR})
+endif()
+
+
 MESSAGE(STATUS "RAPIDJSON PATH: " ${RAPIDJSON_INCLUDE_DIR})
 MESSAGE(STATUS "SPDLOG PATH: " ${SPDLOG_INCLUDE_DIR})
 MESSAGE(STATUS "STB PATH: " ${STB_INCLUDE_DIR})
