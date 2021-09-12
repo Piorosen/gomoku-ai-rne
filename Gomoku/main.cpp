@@ -3,7 +3,6 @@
 #include "design/treeViewController.hpp"
 
 #include <core/jsonManager.hpp>
-
 #include <spdlog/spdlog.h>
 
 #include <filesystem>
@@ -44,7 +43,7 @@ int main(int argc, char **argv)
         {
             // std::sort(itemList->begin(), itemList->end(), [](core::node &a, core::node &b)
             //           { return a.score - b.score; });
-            // spdlog::info("time sort");
+            spdlog::info("time sort");
 
             for (int i = 0; i < itemList->size(); i++)
             {

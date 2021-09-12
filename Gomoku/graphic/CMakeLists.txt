@@ -24,8 +24,8 @@ add_library(${libGraphic} STATIC
 
 # ADD_LIBRARY(${libGraphic} SHARED ${VTI_SOURCES})
 
-add_dependencies(${libGraphic} spdlog)   
-add_dependencies(${libGraphic} stb)
+# add_dependencies(${libGraphic} spdlog)   
+# add_dependencies(${libGraphic} stb)
 
 if(WIN32)
     add_dependencies(${libGraphic} freeglut)
