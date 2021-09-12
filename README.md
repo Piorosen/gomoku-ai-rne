@@ -5,7 +5,7 @@
 빌드 : 
 윈도우 : 
 ```bash
-git clone --recurse-submodules httpsgithub.comPiorosengomoku-ai-rne.git
+git clone --recurse-submodules https://github.com/Piorosen/gomoku-ai-rne.git
 cd gomoku-ai-rne/Gomoku
 cmake -G "Visual Studio 16 2019" -A Win32
 explorer .
@@ -17,7 +17,7 @@ copy ./Resources ./Debug/Resources
 
 맥 : 
 ``` 
-git clone --recurse-submodules httpsgithub.comPiorosengomoku-ai-rne.git
+git clone --recurse-submodules https://github.com/Piorosen/gomoku-ai-rne.git
 cd gomoku-ai-rne/Gomoku
 cmake .
 make
