@@ -1,5 +1,5 @@
 #include <graphic/utils/imagecollect.h>
-#if defined(_WIN32) 
+#if defined(_WIN32)
 #include <GL/glew.h>
 #include <GL/glut.h>
 #else
@@ -12,13 +12,19 @@
 
 std::unique_ptr<grc::imagecollect> grc::imagecollect::shared = std::make_unique<grc::imagecollect>();
 
+#if defined(_WIN32)
 static int imagecollect_counter = 0;
+#endif
+
 int grc::imagecollect::add(std::string file)
 {
-    if (imagecollect_counter == 0) {
+#if defined(_WIN32)
+    if (imagecollect_counter == 0)
+    {
         glewInit();
         imagecollect_counter++;
     }
+#endif
 
     int width, height, channels;
 
