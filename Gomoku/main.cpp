@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     {
         spdlog::info("{} : \"{}\"", i, argv[i]);
     }
-    
+
     spdlog::info("{}", std::filesystem::current_path().u8string());
     grc::application::shared->initialize({500, 700}, "오목 : 그것이 알고 싶다.");
     decltype(auto) mainVC = std::make_shared<mainViewController>();
@@ -40,16 +40,17 @@ int main(int argc, char **argv)
         spdlog::info("time gameVC Clear 1");
 
         auto itemList = core::ai::shared->getNextNode(pt);
-        spdlog::info("time get Next Node");
-        if (itemList != nullptr)
-        {
-            // std::sort(itemList->begin(), itemList->end(), [](core::node &a, core::node &b)
-            //           { return a.score - b.score; });
-            // spdlog::info("time sort");
 
-            for (int i = 0; i < itemList->size(); i++)
+        spdlog::info("time get Next Node");
+        if (itemList.size() != 0)
+        {
+            std::sort(itemList.begin(), itemList.end(), [](core::scorePoint &a, core::scorePoint &b)
+                      { return a.score - b.score; });
+            spdlog::info("time sort");
+
+            for (int i = 0; i < itemList.size(); i++)
             {
-                gameVC->setPredict({itemList->at(i).point.x, itemList->at(i).point.y}, i + 1);
+                gameVC->setPredict({itemList.at(i).point.x, itemList.at(i).point.y}, i + 1);
             }
         }
 
@@ -83,16 +84,18 @@ int main(int argc, char **argv)
     mainVC->buttonContinueGame = []()
     { spdlog::info("mainVC : button continue game"); };
 
-    mainVC->buttonNewGame = [&gameVC]()
+    mainVC->buttonNewGame = []()
     {
         spdlog::info("mainVC : button new game");
+    };
+
+    mainVC->buttonTree = [&gameVC]()
+    {
+        spdlog::info("mainVC : button tree");
         gameVC->clear();
 
         grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameVC));
     };
-
-    mainVC->buttonTree = []()
-    { spdlog::info("mainVC : button tree"); };
 
     grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(mainVC));
     grc::application::shared->run();

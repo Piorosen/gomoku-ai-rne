@@ -27,6 +27,12 @@ namespace core
         double score = 0;
     };
 
+    struct scorePoint
+    {
+        core::point point = {0, 0};
+        double score = 0;
+    };
+
     using sqeuence = std::vector<core::point>;
 
     class ai
@@ -38,7 +44,7 @@ namespace core
         core::node root;
         static std::unique_ptr<core::ai> shared;
 
-        const std::vector<core::node> *getNextNode(core::sqeuence seqeuence) const;
+        std::vector<core::scorePoint> getNextNode(core::sqeuence seqeuence) const;
         void newAI(std::string path);
         void loadAI(std::string path);
         void saveAI(std::string path);
