@@ -87,7 +87,7 @@ public:
     std::function<void(unsigned char)> buttonBack;
     std::function<void(std::vector<grc::point> *)> boardChanged;
 
-    virtual void keyboardEvent(unsigned char key, int x, int y) const override
+    virtual void keyboardEvent(unsigned char key, int x, int y) override
     {
         if (buttonBack)
         {

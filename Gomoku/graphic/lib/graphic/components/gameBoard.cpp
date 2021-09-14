@@ -9,6 +9,15 @@
 #include <string>
 #include <spdlog/spdlog.h>
 
+void grc::gameBoard::setClickDisable(bool value)
+{
+    clickDisable = value;
+}
+bool grc::gameBoard::getClickDisable() const
+{
+    return clickDisable;
+}
+
 int grc::gameBoard::click(int state, int x, int y)
 {
     auto p = grc::view::click(state, x, y);
@@ -19,7 +28,7 @@ int grc::gameBoard::click(int state, int x, int y)
     }
 
     // keydown
-    if (state == 0)
+    if (state == 0 && !clickDisable)
     {
         float ptX = x - this->frame.location.x;
         float ptY = y - this->frame.location.y;
@@ -46,6 +55,11 @@ int grc::gameBoard::click(int state, int x, int y)
     }
 
     return p;
+}
+
+std::vector<grc::point> grc::gameBoard::getSequence()
+{
+    return this->point;
 }
 
 bool grc::gameBoard::setState(grc::point pos, int state)

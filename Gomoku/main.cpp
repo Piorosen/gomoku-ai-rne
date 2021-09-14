@@ -1,14 +1,15 @@
 #include "design/mainViewController.hpp"
 #include "design/gameViewController.hpp"
 #include "design/treeViewController.hpp"
+#include "design/gameviewAIvsAIController.hpp"
 
 #include <core/jsonManager.hpp>
-
 #include <spdlog/spdlog.h>
 
 #include <string>
 #include <filesystem>
 #include <algorithm>
+#include <random>
 
 int main(int argc, char **argv)
 {
@@ -25,6 +26,47 @@ int main(int argc, char **argv)
     grc::application::shared->initialize({500, 700}, "오목 : 그것이 알고 싶다.");
     decltype(auto) mainVC = std::make_shared<mainViewController>();
     decltype(auto) gameVC = std::make_shared<gameViewController>();
+    decltype(auto) gameAiVC = std::make_shared<gameviewAIvsAIController>();
+
+    gameAiVC->buttonBack = [&mainVC]()
+    {
+        grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(mainVC));
+    };
+
+    gameAiVC->buttonNext = [&gameAiVC](std::vector<grc::point> *list) -> std::optional<grc::point>
+    {
+        core::sqeuence pt;
+        for (auto &item : *list)
+        {
+            pt.push_back({item.x, item.y});
+        }
+        auto itemList = core::ai::shared->getNextNode(pt);
+
+        if (itemList.size() == 0)
+        {
+            spdlog::critical("not found next Step");
+            return std::nullopt;
+        }
+        else
+        {
+            std::sort(itemList.begin(), itemList.end(), [](core::scorePoint &a, core::scorePoint &b)
+                      { return a.score - b.score; });
+            int random = std::random_device{}() % 3;
+            int idx = std::min((int)itemList.size() - 1, random);
+
+            pt.push_back(itemList[idx].point);
+            auto nextList = core::ai::shared->getNextNode(pt);
+
+            std::sort(nextList.begin(), nextList.end(), [](core::scorePoint &a, core::scorePoint &b)
+                      { return a.score - b.score; });
+
+            for (int i = 0; i < nextList.size(); i++)
+            {
+                gameAiVC->setPredict({nextList[i].point.x, nextList[i].point.y}, i + 1);
+            }
+            return grc::point{itemList[idx].point.x, itemList[idx].point.y};
+        }
+    };
 
     gameVC->boardChanged = [&gameVC](std::vector<grc::point> *list)
     {
@@ -78,11 +120,18 @@ int main(int argc, char **argv)
         }
     };
 
-    mainVC->buttonAiMatch = []()
-    { spdlog::info("mainVC : button ai match"); };
+    mainVC->buttonAiMatch = [&gameAiVC]()
+    {
+        spdlog::info("mainVC : button ai match");
+        gameAiVC->clear();
+
+        grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameAiVC));
+    };
 
     mainVC->buttonContinueGame = []()
-    { spdlog::info("mainVC : button continue game"); };
+    {
+        spdlog::info("mainVC : button continue game");
+    };
 
     mainVC->buttonNewGame = []()
     {

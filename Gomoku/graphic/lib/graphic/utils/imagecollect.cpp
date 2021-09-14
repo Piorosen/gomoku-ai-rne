@@ -18,6 +18,11 @@ static int imagecollect_counter = 0;
 
 int grc::imagecollect::add(std::string file)
 {
+    if (textureId.find(file) != textureId.end())
+    {
+        return textureId[file];
+    }
+
 #if defined(_WIN32)
     if (imagecollect_counter == 0)
     {
@@ -59,7 +64,7 @@ std::optional<int> grc::imagecollect::get(std::string file)
 {
     if (textureId.find(file) != textureId.end())
     {
-        return std::optional<int>(textureId[file]);
+        return textureId[file];
     }
     else
     {

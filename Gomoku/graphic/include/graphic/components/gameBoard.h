@@ -24,6 +24,7 @@ namespace grc
          * 1 : 백 차례
          */
         int color = 0;
+        bool clickDisable = false;
 
     public:
         int counting = 0;
@@ -35,10 +36,14 @@ namespace grc
             }
         }
 
+        std::vector<grc::point> getSequence();
         std::function<void(std::vector<grc::point> *state)> boardChanged;
 
         bool setState(grc::point pos, int state);
         bool setPredict(grc::point pos, int state, int text = 0);
+
+        void setClickDisable(bool value);
+        bool getClickDisable() const;
 
         grc::size boardSize;
         grc::color lineColor = grc::color(0x36210fff);

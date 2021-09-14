@@ -8,7 +8,7 @@ void grc::viewcontroller::mouseEvent(int button, int state, int x, int y)
     }
 }
 
-void grc::viewcontroller::keyboardEvent(unsigned char key, int x, int y) const
+void grc::viewcontroller::keyboardEvent(unsigned char key, int x, int y)
 {
 }
 
