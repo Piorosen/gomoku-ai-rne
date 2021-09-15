@@ -72,8 +72,10 @@ public:
             break;
 
         case 'r':
+        {
             this->clear();
-            break;
+        }
+        break;
 
         case 'q':
         {
@@ -82,7 +84,7 @@ public:
             {
                 b.pop_back();
             }
-            this->clear();
+            this->clear(0, 0);
 
             core::sqeuence pt;
             for (auto &item : b)
@@ -111,7 +113,7 @@ public:
             auto c = board->getSequence();
             if (buttonNext)
             {
-                this->clear();
+                this->clear(0, 0);
                 auto p = buttonNext(&c);
                 if (p.has_value())
                 {
@@ -138,10 +140,24 @@ public:
         return std::static_pointer_cast<grc::gameBoard>(this->view[0])->setState(pos, state);
     }
 
-    void clear(int mode = 0)
+    void clear(int mode = 0, int predict = 1)
     {
         auto pts = std::static_pointer_cast<grc::gameBoard>(this->view[0]);
         pts->clear(mode);
+
+        if (predict)
+        {
+            core::sqeuence pt;
+            auto itemList = core::ai::shared->getNextNode(pt);
+
+            std::sort(itemList.begin(), itemList.end(), [](core::scorePoint &a, core::scorePoint &b)
+                      { return a.score - b.score; });
+
+            for (int i = 0; i < itemList.size(); i++)
+            {
+                setPredict({itemList[i].point.x, itemList[i].point.y}, i + 1);
+            }
+        }
     }
 
     gameviewAIvsAIController()
