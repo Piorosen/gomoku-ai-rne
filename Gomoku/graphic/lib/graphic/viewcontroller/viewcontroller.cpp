@@ -2,9 +2,19 @@
 
 void grc::viewcontroller::mouseEvent(int button, int state, int x, int y)
 {
-    for (auto &v : view)
+    if (button == 0)
     {
-        v->click(state, x, y);
+        for (auto &v : view)
+        {
+            v->click(state, x, y);
+        }
+    }
+    else if (button == 2)
+    {
+        for (auto &v : view)
+        {
+            v->rightClick(state, x, y);
+        }
     }
 }
 

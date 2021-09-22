@@ -22,26 +22,36 @@ void grc::application::keyboard(unsigned char key, int x, int y) const
 
 void grc::application::mouse(int button, int state, int x, int y) const
 {
-    switch (button)
+    if (this->entryController == nullptr)
     {
-    case GLUT_LEFT_BUTTON:
-        if (this->entryController == nullptr)
-        {
-            spdlog::critical("Entry Controller Not Found");
-            return;
-        }
-        else
-        {
-            this->entryController->mouseEvent(button, state, x, y);
-        }
-        break;
-    case GLUT_MIDDLE_BUTTON:
-        break;
-    case GLUT_RIGHT_BUTTON:
-        break;
-    default:
-        break;
+        spdlog::critical("Entry Controller Not Found");
+        return;
     }
+    else
+    {
+        this->entryController->mouseEvent(button, state, x, y);
+    }
+    // switch (button)
+    // {
+    // case GLUT_LEFT_BUTTON:
+    //     if (this->entryController == nullptr)
+    //     {
+    //         spdlog::critical("Entry Controller Not Found");
+    //         return;
+    //     }
+    //     else
+    //     {
+    //         this->entryController->mouseEvent(button, state, x, y);
+    //     }
+    //     break;
+    // case GLUT_MIDDLE_BUTTON:
+    //     break;
+    // case GLUT_RIGHT_BUTTON:
+
+    //     break;
+    // default:
+    //     break;
+    // }
 }
 
 void grc::application::render() const

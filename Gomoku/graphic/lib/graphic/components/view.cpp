@@ -42,6 +42,37 @@ int grc::view::click(int state, int x, int y)
     }
 }
 
+// 0 : 클릭 X
+// 1 : root 클릭 O
+// 2 : 현재 레벨 클릭 O
+int grc::view::rightClick(int state, int x, int y)
+{
+    if (getHidden())
+    {
+        return 0;
+    }
+
+    int wrapCheck = 0;
+    for (auto &p : this->controls)
+    {
+        wrapCheck = p->rightClick(state, x, y);
+        if (wrapCheck > 0)
+        {
+            return 1;
+        }
+    }
+
+    if (this->frame.location.x < x && x < this->frame.location.x + this->frame.size.width &&
+        this->frame.location.y < y && y < this->frame.location.y + this->frame.size.height)
+    {
+        return 2;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 void grc::view::setBorder(int borderSize, grc::color borderColor)
 {
     this->borderSize = borderSize;

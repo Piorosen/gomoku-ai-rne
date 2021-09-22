@@ -29,6 +29,7 @@ namespace grc
 
         virtual bool render() const;
         virtual int click(int state, int x, int y);
+        virtual int rightClick(int state, int x, int y);
 
     protected:
         bool isHidden = false;
