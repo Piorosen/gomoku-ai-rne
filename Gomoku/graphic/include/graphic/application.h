@@ -29,7 +29,7 @@ namespace grc
         void run();
         void close();
 
-        void setViewController(std::shared_ptr<grc::viewcontroller>&& vc);
+        void setViewController(std::shared_ptr<grc::viewcontroller> &&vc);
 
         void initialize(const grc::size size, const std::string title);
 
