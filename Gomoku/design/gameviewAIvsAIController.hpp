@@ -93,9 +93,6 @@ public:
             }
             auto itemList = core::ai::shared->getNextNode(pt);
 
-            std::sort(itemList.begin(), itemList.end(), [](core::scorePoint &a, core::scorePoint &b)
-                      { return a.score - b.score; });
-
             for (int i = 0; i < itemList.size(); i++)
             {
                 setPredict({itemList[i].point.x, itemList[i].point.y}, i + 1);
@@ -149,9 +146,6 @@ public:
         {
             core::sqeuence pt;
             auto itemList = core::ai::shared->getNextNode(pt);
-
-            std::sort(itemList.begin(), itemList.end(), [](core::scorePoint &a, core::scorePoint &b)
-                      { return a.score - b.score; });
 
             for (int i = 0; i < itemList.size(); i++)
             {
