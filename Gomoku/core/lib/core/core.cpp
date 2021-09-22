@@ -50,6 +50,15 @@ std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence) con
     {
         pt.push_back({{node.point.x, node.point.y}, node.score});
     }
+
+    std::sort(pt.begin(), pt.end(), [](core::scorePoint &a, core::scorePoint &b)
+              { return a.score > b.score; });
+
+    spdlog::info("----- Search Ai -----");
+    for (int i = 0; i < pt.size(); i++)
+    {
+        spdlog::info("{} : Score : {:.5} \t\t : [{}, {}]", i + 1, pt[i].score, pt[i].point.x, pt[i].point.y);
+    }
     return pt;
 }
 

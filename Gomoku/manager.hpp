@@ -74,16 +74,11 @@ private:
             }
             else
             {
-                std::sort(itemList.begin(), itemList.end(), [](core::scorePoint &a, core::scorePoint &b)
-                          { return a.score - b.score; });
                 int random = std::random_device{}() % 3;
                 int idx = std::min((int)itemList.size() - 1, random);
 
                 pt.push_back(itemList[idx].point);
                 auto nextList = core::ai::shared->getNextNode(pt);
-
-                std::sort(nextList.begin(), nextList.end(), [](core::scorePoint &a, core::scorePoint &b)
-                          { return a.score - b.score; });
 
                 for (int i = 0; i < nextList.size(); i++)
                 {
@@ -111,8 +106,6 @@ private:
             spdlog::info("time get Next Node");
             if (itemList.size() != 0)
             {
-                std::sort(itemList.begin(), itemList.end(), [](core::scorePoint &a, core::scorePoint &b)
-                          { return a.score - b.score; });
                 spdlog::info("time sort");
 
                 for (int i = 0; i < itemList.size(); i++)
