@@ -174,11 +174,20 @@ private:
 public:
     static std::unique_ptr<manager> shared;
 
+    void setNotFoundAi(color (*check)(std::vector<std::vector<color>>))
+    {
+        this->winCheck = check;
+    }
+
     void setWinCheck(std::function<color(std::vector<std::vector<color>>)> check)
     {
         this->winCheck = check;
     }
 
+    void setNotFoundAi(std::vector<point> (*sudoAi)(color, std::vector<std::vector<color>>))
+    {
+        this->notFoundAi = sudoAi;
+    }
     void setNotFoundAi(std::function<std::vector<point>(color, std::vector<std::vector<color>>)> sudoAi)
     {
         this->notFoundAi = sudoAi;

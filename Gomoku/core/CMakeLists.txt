@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.16.0)
 set(libCore "core")
 
 add_library(${libCore} STATIC 
-            lib/core/core.cpp            
+            lib/core/core.cpp 
+            lib/core/AI.cpp
+            lib/core/Board.cpp           
             )
 
 # add_dependencies(${libCore} spdlog)            
