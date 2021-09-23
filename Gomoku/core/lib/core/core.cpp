@@ -10,16 +10,17 @@
 
 std::unique_ptr<core::ai> core::ai::shared = std::make_unique<core::ai>();
 
-std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence) const
+std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence)
 {
     spdlog::info("time get Next Node");
 
     auto *node = &this->root;
 
+    int idx = 0;
     for (int seqIdx = 0; seqIdx < sequence.size(); seqIdx++)
     {
         auto seq = sequence[seqIdx];
-        int idx = -1;
+        idx = -1;
         for (int i = 0; i < node->next.size(); i++)
         {
             if (node->next[i].point.x == seq.x && node->next[i].point.y == seq.y)
@@ -36,7 +37,8 @@ std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence) con
         if (idx == -1)
         {
             spdlog::critical("not found next Node");
-            return std::vector<core::scorePoint>();
+            break;
+            // return std::vector<core::scorePoint>();
         }
         else
         {
@@ -46,14 +48,42 @@ std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence) con
     spdlog::info("time get Next Node retuning");
 
     std::vector<core::scorePoint> pt;
-    for (auto &node : node->next)
+
+    if (idx != -1)
     {
-        pt.push_back({{node.point.x, node.point.y}, node.score});
+        for (auto &node : node->next)
+        {
+            pt.push_back({{node.point.x, node.point.y}, node.score});
+        }
+
+        if (pt.size() > 0)
+        {
+            std::sort(pt.begin(), pt.end(), [](core::scorePoint &a, core::scorePoint &b)
+                      { return a.score > b.score; });
+        }
     }
 
-    std::sort(pt.begin(), pt.end(), [](core::scorePoint &a, core::scorePoint &b)
-              { return a.score > b.score; });
+    if (pt.size() == 0)
+    {
+        wine.ReStart();
+        wine.timeout_turn = 500;
 
+        for (auto &p : sequence)
+        {
+            Pos pos;
+            pos.x = p.x + 1;
+            pos.y = p.y + 1;
+            wine.PutChess(pos);
+        }
+
+        Pos best = wine.GetBestMove();
+        core::scorePoint pts;
+        pts.score = 1;
+        pts.point.x = best.x - 1;
+        pts.point.y = best.y - 1;
+
+        pt.push_back(pts);
+    }
     spdlog::info("----- Search Ai -----");
     for (int i = 0; i < pt.size(); i++)
     {
@@ -84,6 +114,8 @@ core::node core::ai::getNode(rapidjson::Value &data)
 
 void core::ai::loadAI(std::string path)
 {
+    wine.SetSize(15);
+
     spdlog::info("ai load start : [{}]", path);
     std::ifstream f(path);
 
