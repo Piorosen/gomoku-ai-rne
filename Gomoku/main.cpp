@@ -3,10 +3,11 @@
 #include <functional>
 
 using namespace std;
+using namespace core;
 
-vector<point> notFoundAi(color term, vector<vector<color>> board)
+vector<scorePoint> notFoundAi(color term, vector<vector<color>> board)
 {
-    return vector<point>();
+    return vector<scorePoint>();
 }
 
 color winCheck(vector<vector<color>> board)
@@ -23,8 +24,10 @@ color winCheck(vector<vector<color>> board)
 int main(int argc, char **argv)
 {
     manager::shared->init();
-    manager::shared->run();
 
     manager::shared->setNotFoundAi(notFoundAi);
     manager::shared->setWinCheck(winCheck);
+    manager::shared->setDefaultAiCalculateTimeOut(500);
+
+    manager::shared->run();
 }

@@ -10,6 +10,20 @@
 
 std::unique_ptr<core::ai> core::ai::shared = std::make_unique<core::ai>();
 
+void core::ai::setDefaultAiCalculateTimeOut(int milliseconds)
+{
+    this->defaultAiCalcTime = milliseconds;
+}
+
+void core::ai::setNotFoundAi(std::vector<core::scorePoint> (*sudoAi)(core::color, std::vector<std::vector<core::color>>))
+{
+    this->notFoundAi = sudoAi;
+}
+void core::ai::setNotFoundAi(std::function<std::vector<core::scorePoint>(core::color, std::vector<std::vector<core::color>>)> sudoAi)
+{
+    this->notFoundAi = sudoAi;
+}
+
 std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence)
 {
     spdlog::info("time get Next Node");
@@ -55,36 +69,69 @@ std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence)
         {
             pt.push_back({{node.point.x, node.point.y}, node.score});
         }
-
-        if (pt.size() > 0)
-        {
-            std::sort(pt.begin(), pt.end(), [](core::scorePoint &a, core::scorePoint &b)
-                      { return a.score > b.score; });
-        }
     }
 
     if (pt.size() == 0)
     {
-        wine.ReStart();
-        wine.timeout_turn = 500;
-
-        for (auto &p : sequence)
+        if (this->notFoundAi.has_value())
         {
-            Pos pos;
-            pos.x = p.x + 1;
-            pos.y = p.y + 1;
-            wine.PutChess(pos);
+            spdlog::info("find : user ai");
+            std::vector<std::vector<core::color>> boardState;
+
+            // init
+            for (int y = 0; y < boardSize; y++)
+            {
+                std::vector<core::color> line;
+
+                for (int x = 0; x < boardSize; x++)
+                {
+                    line.push_back(core::color::none);
+                }
+                boardState.push_back(line);
+            }
+
+            for (int seq = 0; seq < sequence.size(); seq++)
+            {
+                auto &p = sequence[seq];
+                boardState[p.y][p.x] = seq % 2 == 0 ? core::color::black
+                                                    : core::color::white;
+            }
+
+            auto userai = notFoundAi.value()(sequence.size() % 2 == 0 ? core::color::black
+                                                                      : core::color::white,
+                                             boardState);
+
+            pt.insert(pt.end(), userai.begin(), userai.end());
         }
 
-        Pos best = wine.GetBestMove();
-        core::scorePoint pts;
-        pts.score = 1;
-        pts.point.x = best.x - 1;
-        pts.point.y = best.y - 1;
+        if (pt.size() == 0)
+        {
+            spdlog::info("not find : user ai");
 
-        pt.push_back(pts);
+            wine.ReStart();
+            wine.timeout_turn = defaultAiCalcTime;
+
+            for (auto &p : sequence)
+            {
+                Pos pos;
+                pos.x = p.x + 1;
+                pos.y = p.y + 1;
+                wine.PutChess(pos);
+            }
+
+            Pos best = wine.GetBestMove();
+            core::scorePoint pts;
+            pts.score = 1;
+            pts.point.x = best.x - 1;
+            pts.point.y = best.y - 1;
+
+            pt.push_back(pts);
+        }
     }
-    spdlog::info("----- Search Ai -----");
+
+    spdlog::info("----- Search Ai Result -----");
+    std::sort(pt.begin(), pt.end(), [](core::scorePoint &a, core::scorePoint &b)
+              { return a.score > b.score; });
     for (int i = 0; i < pt.size(); i++)
     {
         spdlog::info("{} : Score : {:.5} \t\t : [{}, {}]", i + 1, pt[i].score, pt[i].point.x, pt[i].point.y);
@@ -114,7 +161,7 @@ core::node core::ai::getNode(rapidjson::Value &data)
 
 void core::ai::loadAI(std::string path)
 {
-    wine.SetSize(15);
+    wine.SetSize(boardSize);
 
     spdlog::info("ai load start : [{}]", path);
     std::ifstream f(path);

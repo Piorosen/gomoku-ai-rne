@@ -14,20 +14,6 @@
 #include <algorithm>
 #include <random>
 
-enum class color
-{
-    white,
-    black,
-    none
-};
-
-struct point
-{
-    int x;
-    int y;
-    double score = 0;
-};
-
 class manager
 {
 private:
@@ -168,29 +154,34 @@ private:
         };
     }
 
-    std::optional<std::function<color(std::vector<std::vector<color>>)>> winCheck = std::nullopt;
-    std::optional<std::function<std::vector<point>(color, std::vector<std::vector<color>>)>> notFoundAi = std::nullopt;
+    std::optional<std::function<core::color(std::vector<std::vector<core::color>>)>> winCheck = std::nullopt;
 
 public:
     static std::unique_ptr<manager> shared;
 
-    void setNotFoundAi(color (*check)(std::vector<std::vector<color>>))
+    // default : 500ms
+    void setDefaultAiCalculateTimeOut(int milliseconds)
+    {
+        core::ai::shared->setDefaultAiCalculateTimeOut(milliseconds);
+    }
+
+    void setWinCheck(core::color (*check)(std::vector<std::vector<core::color>>))
     {
         this->winCheck = check;
     }
 
-    void setWinCheck(std::function<color(std::vector<std::vector<color>>)> check)
+    void setWinCheck(std::function<core::color(std::vector<std::vector<core::color>>)> check)
     {
         this->winCheck = check;
     }
 
-    void setNotFoundAi(std::vector<point> (*sudoAi)(color, std::vector<std::vector<color>>))
+    void setNotFoundAi(std::vector<core::scorePoint> (*sudoAi)(core::color, std::vector<std::vector<core::color>>))
     {
-        this->notFoundAi = sudoAi;
+        core::ai::shared->setNotFoundAi(sudoAi);
     }
-    void setNotFoundAi(std::function<std::vector<point>(color, std::vector<std::vector<color>>)> sudoAi)
+    void setNotFoundAi(std::function<std::vector<core::scorePoint>(core::color, std::vector<std::vector<core::color>>)> sudoAi)
     {
-        this->notFoundAi = sudoAi;
+        core::ai::shared->setNotFoundAi(sudoAi);
     }
 
     void init(bool resetAi = false)
