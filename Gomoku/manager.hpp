@@ -21,9 +21,8 @@ private:
     {
         if (resetAi)
         {
-            core::jsonManager manager;
-            manager.reLoad("./resources/ai/games.json");
-            manager.saveJson("./resources/ai/ai.json");
+            core::jsonManager::reLoad("./resources/ai/games.json");
+            core::jsonManager::saveJson("./resources/ai/ai.json");
         }
         else
         {
@@ -35,6 +34,13 @@ private:
     {
         // spdlog::info("{}", std::filesystem::current_path().u8string());
         grc::application::shared->initialize({500, 700}, "오목 : 그것이 알고 싶다.");
+
+        grc::application::shared->closedEvent = []()
+        {
+            spdlog::info("Close Event : AI Save Start");
+            core::jsonManager::saveJson("./resources/ai/ai.json");
+            spdlog::info("Close Event : AI Save End");
+        };
     }
 
     void initui()
@@ -162,7 +168,7 @@ private:
         };
     }
 
-    std::optional<std::function<core::color(std::vector<std::vector<core::color>>)>> winCheck = std::nullopt;
+    std::function<core::color(std::vector<std::vector<core::color>>)> winCheck = std::nullopt;
 
 public:
     static std::unique_ptr<manager> shared;

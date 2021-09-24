@@ -16,7 +16,7 @@ namespace core
     class jsonManager
     {
     private:
-        std::vector<std::string> split(std::string input, char delimiter)
+        static std::vector<std::string> split(std::string input, char delimiter)
         {
             std::vector<std::string> answer;
             std::stringstream ss(input);
@@ -30,7 +30,7 @@ namespace core
             return answer;
         }
 
-        rapidjson::Value convertNodeToValue(core::node node, rapidjson::Document::AllocatorType &allocator)
+        static rapidjson::Value convertNodeToValue(core::node node, rapidjson::Document::AllocatorType &allocator)
         {
             rapidjson::Value obj(rapidjson::kObjectType);
             rapidjson::Value p(rapidjson::kArrayType);
@@ -53,7 +53,7 @@ namespace core
         {
         }
 
-        void saveJson(std::string path)
+        static void saveJson(std::string path)
         {
             core::node rootNode = core::ai::shared->root;
             std::ofstream f(path);
@@ -75,7 +75,7 @@ namespace core
             f.close();
         }
 
-        void reLoad(std::string path, double discountRate = 0.5)
+        static void reLoad(std::string path, double discountRate = 0.5)
         {
             std::ifstream f(path);
 

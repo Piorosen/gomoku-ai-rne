@@ -43,7 +43,7 @@ namespace core
     {
     private:
         core::node getNode(rapidjson::Value &data);
-        std::optional<std::function<std::vector<core::scorePoint>(core::color, std::vector<std::vector<core::color>>)>> notFoundAi = std::nullopt;
+        std::function<std::vector<core::scorePoint>(core::color, std::vector<std::vector<core::color>>)> notFoundAi;
         int defaultAiCalcTime = 500;
 
         int boardSize = 15;

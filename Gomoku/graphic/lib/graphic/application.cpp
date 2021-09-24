@@ -1,4 +1,5 @@
 #include <graphic/application.h>
+
 #if defined(_WIN32)
 #include <GL/glut.h>
 #else
@@ -10,14 +11,13 @@ std::unique_ptr<grc::application> grc::application::shared = std::make_unique<gr
 
 void grc::application::keyboard(unsigned char key, int x, int y) const
 {
+    this->entryController->keyboardEvent(key, x, y);
+
     //ESC 키가 눌러졌다면 프로그램 종료
     if (key == 27)
     {
-        glutDestroyWindow(glutGetWindow());
-        exit(0);
+        close();
     }
-
-    this->entryController->keyboardEvent(key, x, y);
 }
 
 void grc::application::mouse(int button, int state, int x, int y) const
@@ -98,9 +98,15 @@ void grc::application::run()
     glutMainLoop();
 }
 
-void grc::application::close()
+void grc::application::close() const
 {
     glutDestroyWindow(glutGetWindow());
+
+    if (this->closedEvent.has_value())
+    {
+        this->closedEvent.value()();
+    }
+
     exit(0);
 }
 

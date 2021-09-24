@@ -74,7 +74,7 @@ std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence)
     spdlog::info("pt size : [{}]", pt.size());
     if (pt.size() == 0)
     {
-        if (this->notFoundAi.has_value())
+        if (this->notFoundAi)
         {
             spdlog::info("find : user ai");
             std::vector<std::vector<core::color>> boardState;
@@ -98,9 +98,9 @@ std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence)
                                                     : core::color::white;
             }
 
-            auto userai = notFoundAi.value()(sequence.size() % 2 == 0 ? core::color::black
-                                                                      : core::color::white,
-                                             boardState);
+            auto userai = notFoundAi(sequence.size() % 2 == 0 ? core::color::black
+                                                              : core::color::white,
+                                     boardState);
 
             pt.insert(pt.end(), userai.begin(), userai.end());
         }

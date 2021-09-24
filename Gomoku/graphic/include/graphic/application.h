@@ -7,7 +7,7 @@
 #include <string>
 #include <memory>
 #include <optional>
-
+#include <functional>
 namespace grc
 {
     class application final
@@ -20,6 +20,8 @@ namespace grc
     public:
         static std::unique_ptr<grc::application> shared;
 
+        std::optional<std::function<void()>> closedEvent;
+
         void keyboard(unsigned char key, int x, int y) const;
         void mouse(int button, int state, int x, int y) const;
         void render() const;
@@ -27,7 +29,7 @@ namespace grc
         application();
 
         void run();
-        void close();
+        void close() const;
 
         void setViewController(std::shared_ptr<grc::viewcontroller> &&vc);
 

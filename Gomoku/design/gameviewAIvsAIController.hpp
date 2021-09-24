@@ -56,7 +56,7 @@ private:
         view.push_back(std::static_pointer_cast<grc::view>(p2));
     }
 
-    std::optional<std::function<core::color(std::vector<std::vector<core::color>>)>> winCheck = std::nullopt;
+    std::function<core::color(std::vector<std::vector<core::color>>)> winCheck;
 
 public:
     std::function<void()> buttonBack;
@@ -133,8 +133,41 @@ public:
                 {
                     board->setState(c[i], (i % 2) + 1);
                 }
-                if (winCheck.has_value())
+                if (winCheck)
                 {
+                    std::vector<std::vector<core::color>> v;
+                    for (int y = 0; y < 15; y++)
+                    {
+                        std::vector<core::color> line;
+                        for (int x = 0; x < 15; x++)
+                        {
+                            line.push_back(core::color::none);
+                        }
+                        v.push_back(line);
+                    }
+                    for (int i = 0; i < c.size(); i++)
+                    {
+                        v[c[i].y][c[i].x] = i % 2 == 0 ? core::color::black
+                                                       : core::color::white;
+                    }
+                    auto result = winCheck(v);
+
+                    spdlog::info("----- Result : Win Check -----");
+
+                    switch (result)
+                    {
+                    case core::color::black:
+                        spdlog::info("----- [ BLACK ] -----");
+                        break;
+                    case core::color::white:
+                        spdlog::info("----- [ WHITE ] -----");
+                        break;
+                    case core::color::none:
+                        spdlog::info("----- [ NONE ] -----");
+                        break;
+                    }
+
+                    spdlog::info("----- Result : Win Check -----");
                 }
                 else
                 {
