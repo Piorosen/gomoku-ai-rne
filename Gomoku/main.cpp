@@ -1,6 +1,7 @@
 #include "manager.hpp"
 #include <vector>
 #include <functional>
+#include <stdlib.h>
 
 using namespace std;
 using namespace core;
