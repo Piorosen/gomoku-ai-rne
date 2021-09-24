@@ -71,6 +71,7 @@ std::vector<core::scorePoint> core::ai::getNextNode(core::sqeuence sequence)
         }
     }
 
+    spdlog::info("pt size : [{}]", pt.size());
     if (pt.size() == 0)
     {
         if (this->notFoundAi.has_value())

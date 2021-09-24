@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     manager::shared->init();
 
     manager::shared->setNotFoundAi(notFoundAi);
-    manager::shared->setWinCheck(winCheck);
+    // manager::shared->setWinCheck(winCheck);
     manager::shared->setDefaultAiCalculateTimeOut(500);
 
     manager::shared->run();

@@ -56,9 +56,21 @@ private:
         view.push_back(std::static_pointer_cast<grc::view>(p2));
     }
 
+    std::optional<std::function<core::color(std::vector<std::vector<core::color>>)>> winCheck = std::nullopt;
+
 public:
     std::function<void()> buttonBack;
     std::function<std::optional<grc::point>(std::vector<grc::point> *list)> buttonNext;
+
+    void setWinCheck(core::color (*check)(std::vector<std::vector<core::color>>))
+    {
+        this->winCheck = check;
+    }
+
+    void setWinCheck(std::function<core::color(std::vector<std::vector<core::color>>)> check)
+    {
+        this->winCheck = check;
+    }
 
     virtual void keyboardEvent(unsigned char key, int x, int y) override
     {
@@ -120,6 +132,13 @@ public:
                 for (int i = 0; i < c.size(); i++)
                 {
                     board->setState(c[i], (i % 2) + 1);
+                }
+                if (winCheck.has_value())
+                {
+                }
+                else
+                {
+                    spdlog::critical("not found win Check");
                 }
             }
         }

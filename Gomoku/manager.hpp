@@ -101,6 +101,14 @@ private:
             }
 
             spdlog::info("time Check End");
+
+            if (winCheck.has_value())
+            {
+            }
+            else
+            {
+                spdlog::critical("not found win Check");
+            }
         };
 
         gameVC->buttonBack = [this](unsigned char key)
@@ -167,11 +175,13 @@ public:
 
     void setWinCheck(core::color (*check)(std::vector<std::vector<core::color>>))
     {
+        gameAiVC->setWinCheck(check);
         this->winCheck = check;
     }
 
     void setWinCheck(std::function<core::color(std::vector<std::vector<core::color>>)> check)
     {
+        gameAiVC->setWinCheck(check);
         this->winCheck = check;
     }
 
