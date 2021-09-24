@@ -133,6 +133,7 @@ public:
                 {
                     board->setState(c[i], (i % 2) + 1);
                 }
+
                 if (winCheck)
                 {
                     std::vector<std::vector<core::color>> v;
@@ -158,9 +159,13 @@ public:
                     {
                     case core::color::black:
                         spdlog::info("----- [ BLACK ] -----");
+                        sleep(2000);
+                        this->clear();
                         break;
                     case core::color::white:
                         spdlog::info("----- [ WHITE ] -----");
+                        sleep(2000);
+                        this->clear();
                         break;
                     case core::color::none:
                         spdlog::info("----- [ NONE ] -----");

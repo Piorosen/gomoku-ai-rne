@@ -108,8 +108,45 @@ private:
 
             spdlog::info("time Check End");
 
-            if (winCheck.has_value())
+            if (winCheck)
             {
+                std::vector<std::vector<core::color>> v;
+                for (int y = 0; y < 15; y++)
+                {
+                    std::vector<core::color> line;
+                    for (int x = 0; x < 15; x++)
+                    {
+                        line.push_back(core::color::none);
+                    }
+                    v.push_back(line);
+                }
+                for (int i = 0; i < pt.size(); i++)
+                {
+                    v[pt[i].y][pt[i].x] = i % 2 == 0 ? core::color::black
+                                                     : core::color::white;
+                }
+                auto result = winCheck(v);
+
+                spdlog::info("----- Result : Win Check -----");
+
+                switch (result)
+                {
+                case core::color::black:
+                    spdlog::info("----- [ BLACK ] -----");
+                    sleep(2000);
+                    gameVC->clear();
+                    break;
+                case core::color::white:
+                    spdlog::info("----- [ WHITE ] -----");
+                    sleep(2000);
+                    gameVC->clear();
+                    break;
+                case core::color::none:
+                    spdlog::info("----- [ NONE ] -----");
+                    break;
+                }
+
+                spdlog::info("----- Result : Win Check -----");
             }
             else
             {
@@ -168,7 +205,7 @@ private:
         };
     }
 
-    std::function<core::color(std::vector<std::vector<core::color>>)> winCheck = std::nullopt;
+    std::function<core::color(std::vector<std::vector<core::color>>)> winCheck;
 
 public:
     static std::unique_ptr<manager> shared;
