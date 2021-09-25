@@ -3,10 +3,9 @@ set(libGraphic "graphic")
 
 find_package(OpenGL REQUIRED)
 if (WIN32) 
-    find_package(GLUT REQUIRED)
-    find_package(GLEW REQUIRED)
+    # find_package(GLEW REQUIRED)
 else()
-    find_package(GLUT REQUIRED)
+find_package(GLUT REQUIRED)
 endif()
 
 add_library(${libGraphic} STATIC 
@@ -26,8 +25,8 @@ add_library(${libGraphic} STATIC
 if(WIN32)
     message(STATUS ${libGraphic})
 
-    target_link_libraries(${libGraphic} PRIVATE GLEW::GLEW)
-    target_link_libraries(${libGraphic} PRIVATE GLUT::GLUT)
+    # target_link_libraries(${libGraphic} PUBLIC GLEW::GLEW)
+    # target_link_libraries(${libGraphic} PUBLIC GLUT::GLUT)
     #target_include_directories(${libGraphic} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/freeglut/include)
     #target_include_directories(${libGraphic} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/glew/include)
 
