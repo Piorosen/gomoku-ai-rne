@@ -27,17 +27,14 @@ MESSAGE(STATUS "STB PATH: " ${STB_INCLUDE_DIR})
 ADD_EXECUTABLE(${PROGRAM_NAME}
 	main.cpp
 	)
-	
+
+if (WIN32)
+set_property(TARGET ${PROGRAM_NAME}
+        PROPERTY VS_PACKAGE_REFERENCES "nupengl.core_0.1.0.1"
+    )
+endif()
 add_subdirectory(Core core/)
 add_subdirectory(Graphic graphic/)
-if (WIN32)
-	#message(STATUS ${PROGRAM_NAME})
-	#target_include_directories(${PROGRAM_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/freeglut/include)
-    #target_include_directories(${PROGRAM_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/glew/include)
-
-    #target_link_directories(${PROGRAM_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/freeglut/lib)
-    #target_link_directories(${PROGRAM_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/glew/lib)
-endif()
 
 target_link_libraries(${PROGRAM_NAME} core)
 target_link_libraries(${PROGRAM_NAME} graphic)

@@ -22,7 +22,7 @@ add_library(${libGraphic} STATIC
             )
 
 if(WIN32)
-    message(STATUS nupengl.core)
+    message(STATUS ${libGraphic})
     set_property(TARGET ${libGraphic}
         PROPERTY VS_PACKAGE_REFERENCES "nupengl.core_0.1.0.1"
     )
