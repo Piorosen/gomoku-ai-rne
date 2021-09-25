@@ -7,4 +7,15 @@ cmd.exe /C .\ThirdParty\vcpkg\vcpkg integrate install
 cmd.exe /C cmake -G "Visual Studio 16 2019" -A Win32
 
 echo ##### End Visual Studio Project #####
-pause
+
+IF "%1" == "EXEC" (
+	goto END
+) ELSE (
+	goto PARAM
+)
+
+:PARAM
+PAUSE
+goto END
+
+:END
