@@ -1,5 +1,7 @@
 @echo off
 echo ##### Make Visual Studio Projecct #####
+cmd.exe /C .\ThirdParty\cmake\cmake-3.21.3-windows-x86_64.msi
+
 
 cmd.exe /C .\ThirdParty\vcpkg\bootstrap-vcpkg.bat
 cmd.exe /C .\ThirdParty\vcpkg\vcpkg install freeglut glew
