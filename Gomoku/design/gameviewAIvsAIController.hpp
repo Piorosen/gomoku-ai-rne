@@ -159,12 +159,20 @@ public:
                     {
                     case core::color::black:
                         spdlog::info("----- [ BLACK ] -----");
-                        sleep(2000);
+#if defined(_WIN32)
+                        Sleep(2000);
+#else
+                        sleep(2);
+#endif
                         this->clear();
                         break;
                     case core::color::white:
                         spdlog::info("----- [ WHITE ] -----");
-                        sleep(2000);
+#if defined(_WIN32)
+                        Sleep(2000);
+#else
+                        sleep(2);
+#endif
                         this->clear();
                         break;
                     case core::color::none:

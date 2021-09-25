@@ -3,7 +3,6 @@ set(libGraphic "graphic")
 
 find_package(OpenGL REQUIRED)
 if (WIN32) 
-    
 else()
     find_package(GLUT REQUIRED)
 endif()
@@ -22,15 +21,16 @@ add_library(${libGraphic} STATIC
             lib/graphic/viewcontroller/viewcontroller.cpp
             )
 
-# ADD_LIBRARY(${libGraphic} SHARED ${VTI_SOURCES})
-
-# add_dependencies(${libGraphic} spdlog)   
-# add_dependencies(${libGraphic} stb)
-
 if(WIN32)
-    # add_dependencies(${libGraphic} freeglut)
-    # target_include_directories(${libGraphic} PUBLIC ${FREEGLUT_INCLUDE_DIR})
-    # target_link_directories(${libGraphic} PUBLIC ${FREEGLUT_LIBRARY_DIR})
+    message(STATUS nupengl.core)
+    set_property(TARGET ${libGraphic}
+        PROPERTY VS_PACKAGE_REFERENCES "nupengl.core_0.1.0.1"
+    )
+    #target_include_directories(${libGraphic} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/freeglut/include)
+    #target_include_directories(${libGraphic} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/glew/include)
+
+    #target_link_directories(${libGraphic} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/freeglut/lib)
+    #target_link_directories(${libGraphic} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/glew/lib)
 else()
 
 endif()
