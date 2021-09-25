@@ -3,6 +3,8 @@ set(libGraphic "graphic")
 
 find_package(OpenGL REQUIRED)
 if (WIN32) 
+    find_package(GLUT REQUIRED)
+    find_package(GLEW REQUIRED)
 else()
     find_package(GLUT REQUIRED)
 endif()
@@ -23,9 +25,9 @@ add_library(${libGraphic} STATIC
 
 if(WIN32)
     message(STATUS ${libGraphic})
-    set_property(TARGET ${libGraphic}
-        PROPERTY VS_PACKAGE_REFERENCES "nupengl.core_0.1.0.1"
-    )
+
+    target_link_libraries(${libGraphic} PRIVATE GLEW::GLEW)
+    target_link_libraries(${libGraphic} PRIVATE GLUT::GLUT)
     #target_include_directories(${libGraphic} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/freeglut/include)
     #target_include_directories(${libGraphic} PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/glew/include)
 
