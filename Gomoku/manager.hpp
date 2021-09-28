@@ -203,17 +203,19 @@ private:
             grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameAiVC));
         };
 
-        mainVC->buttonContinueGame = [this]()
+        mainVC->buttonContinueGame = []()
         {
             spdlog::info("mainVC : button continue game");
-            gameHumanVC->clear();
-
-            grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameHumanVC));
+            spdlog::critical("mainVC : Not Implement");
         };
 
-        mainVC->buttonNewGame = []()
+        mainVC->buttonNewGame = [this]()
         {
             spdlog::info("mainVC : button new game");
+            spdlog::critical("mainVC : Not Implement");
+
+            gameHumanVC->clear();
+            grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameHumanVC));
         };
 
         mainVC->buttonTree = [this]()
