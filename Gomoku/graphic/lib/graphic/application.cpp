@@ -6,17 +6,27 @@
 #include <GLUT/glut.h>
 #endif
 #include <spdlog/spdlog.h>
+#include <chrono>
 
 std::unique_ptr<grc::application> grc::application::shared = std::make_unique<grc::application>();
 
+long long prevEscTime;
 void grc::application::keyboard(unsigned char key, int x, int y) const
 {
     this->entryController->keyboardEvent(key, x, y);
 
     //ESC 키가 눌러졌다면 프로그램 종료
+
     if (key == 27)
     {
-        close();
+        auto time = std::chrono::system_clock::now();
+        auto mill = std::chrono::duration_cast<std::chrono::milliseconds>(time.time_since_epoch()).count();
+
+        if (mill - prevEscTime < 300)
+        {
+            close();
+        }
+        prevEscTime = mill;
     }
 }
 

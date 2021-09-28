@@ -76,7 +76,7 @@ public:
     {
         switch (key)
         {
-        case 127:
+        case 27:
             if (buttonBack)
             {
                 buttonBack();

@@ -13,6 +13,7 @@
 #include <filesystem>
 #include <algorithm>
 #include <random>
+#include <time.h>
 
 class manager
 {
@@ -38,8 +39,23 @@ private:
         grc::application::shared->closedEvent = []()
         {
             spdlog::info("Close Event : AI Save Start");
-            core::jsonManager::saveJson("./resources/ai/ai.json");
+            core::jsonManager::saveJson("./resources/ai/ai_new.json");
             spdlog::info("Close Event : AI Save End");
+            time_t timer = time(NULL);
+            struct tm *t = localtime(&timer);
+            printf("현재 년: %d\n", t->tm_year + 1900);
+            printf("현재 월: %d\n", t->tm_mon + 1);
+            printf("현재 일: %d\n", t->tm_mday);
+            printf("현재 시: %d\n", t->tm_hour);
+            printf("현재 분: %d\n", t->tm_min);
+            printf("현재 초: %d\n", t->tm_sec);
+
+            spdlog::info("Close Event : File Rename");
+            char p[256];
+            sprintf(p, "%s_%d%2d%2d%2d%2d%2d", "./resources/ai/ai", t->tm_year + 1900, t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec);
+            rename("./resources/ai/ai.json", p);
+            rename("./resources/ai/ai_new.json", "./resources/ai/ai.json");
+            spdlog::info("Close Event : Finished");
         };
     }
 
@@ -165,7 +181,7 @@ private:
         gameVC->buttonBack = [this](unsigned char key)
         {
             spdlog::info("gameVC : button back button");
-            if (key == 127)
+            if (key == 27)
             {
                 grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(mainVC));
             }
