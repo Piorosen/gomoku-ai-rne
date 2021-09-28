@@ -149,20 +149,16 @@ private:
                 {
                 case core::color::black:
                     spdlog::info("----- [ BLACK ] -----");
-#if defined(_WIN32)
-                    Sleep(2000);
-#else
-                    sleep(2);
-#endif
+                    std::string dummy;
+                    std::cout << "Enter to continue..." << std::endl;
+                    std::getline(std::cin, dummy);
                     gameVC->clear();
                     break;
                 case core::color::white:
                     spdlog::info("----- [ WHITE ] -----");
-#if defined(_WIN32)
-                    Sleep(2000);
-#else
-                    sleep(2);
-#endif
+                    std::string dummy;
+                    std::cout << "Enter to continue..." << std::endl;
+                    std::getline(std::cin, dummy);
                     gameVC->clear();
                     break;
                 case core::color::none:
