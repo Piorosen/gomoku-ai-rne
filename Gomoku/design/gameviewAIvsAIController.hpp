@@ -157,18 +157,25 @@ public:
 
                     spdlog::info("----- Result : Win Check -----");
 
+                    std::string dummy;
+                    core::sqeuence pt;
+                    for (auto &item : c)
+                    {
+                        pt.push_back({item.x, item.y});
+                    }
+
                     switch (result)
                     {
                     case core::color::black:
                         spdlog::info("----- [ BLACK ] -----");
-                        std::string dummy;
+                        core::ai::shared->appendAI(pt, result);
                         std::cout << "Enter to continue..." << std::endl;
                         std::getline(std::cin, dummy);
                         this->clear();
                         break;
                     case core::color::white:
                         spdlog::info("----- [ WHITE ] -----");
-                        std::string dummy;
+                        core::ai::shared->appendAI(pt, result);
                         std::cout << "Enter to continue..." << std::endl;
                         std::getline(std::cin, dummy);
                         this->clear();

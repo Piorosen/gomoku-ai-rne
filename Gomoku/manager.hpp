@@ -144,19 +144,19 @@ private:
                 auto result = winCheck(v);
 
                 spdlog::info("----- Result : Win Check -----");
-
+                std::string dummy;
                 switch (result)
                 {
                 case core::color::black:
                     spdlog::info("----- [ BLACK ] -----");
-                    std::string dummy;
+                    core::ai::shared->appendAI(pt, result);
                     std::cout << "Enter to continue..." << std::endl;
                     std::getline(std::cin, dummy);
                     gameVC->clear();
                     break;
                 case core::color::white:
                     spdlog::info("----- [ WHITE ] -----");
-                    std::string dummy;
+                    core::ai::shared->appendAI(pt, result);
                     std::cout << "Enter to continue..." << std::endl;
                     std::getline(std::cin, dummy);
                     gameVC->clear();
