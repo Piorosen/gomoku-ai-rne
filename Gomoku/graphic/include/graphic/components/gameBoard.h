@@ -26,6 +26,8 @@ namespace grc
         int color = 0;
         bool clickDisable = false;
 
+        bool autoColorChange = true;
+
     public:
         int counting = 0;
         gameBoard(grc::rect f, grc::size bsize) : grc::view(f, grc::color(0x854b25ff)), boardSize(bsize)
@@ -44,6 +46,12 @@ namespace grc
 
         void setClickDisable(bool value);
         bool getClickDisable() const;
+
+        void setAutoColorChange(bool value, int color)
+        {
+            autoColorChange = value;
+            this->color = color;
+        }
 
         grc::size boardSize;
         grc::color lineColor = grc::color(0x36210fff);

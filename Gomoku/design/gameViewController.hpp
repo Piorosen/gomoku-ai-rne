@@ -56,32 +56,6 @@ private:
         view.push_back(std::static_pointer_cast<grc::view>(p));
         view.push_back(std::static_pointer_cast<grc::view>(p2));
     }
-    std::vector<std::string> split(std::string input, char delimiter)
-    {
-        std::vector<std::string> answer;
-        std::stringstream ss(input);
-        std::string temp;
-
-        while (std::getline(ss, temp, delimiter))
-        {
-            answer.push_back(temp);
-        }
-
-        return answer;
-    }
-    std::string replace_all(
-        std::string message,
-        std::string pattern,
-        std::string replace)
-    {
-        std::string result = message;
-        std::string::size_type pos = 0;
-        while ((pos = result.find(pattern)) != std::string::npos)
-        {
-            result.replace(pos, pattern.size(), replace);
-        }
-        return result;
-    }
 
 public:
     std::function<void(unsigned char)> buttonBack;

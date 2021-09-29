@@ -5,6 +5,7 @@
 #include <graphic/components/imagebutton.h>
 #include <graphic/components/gameBoard.h>
 
+#include <random>
 #include <cstdlib>
 #include <ctime>
 #include <functional>
@@ -13,6 +14,9 @@
 class gameViewHumanvsAIController : public grc::viewcontroller
 {
 private:
+    std::shared_ptr<grc::gameBoard> board;
+    core::color aiTern = core::color::none;
+
     void setDesign()
     {
         auto titleIdx = grc::imagecollect::shared->add("./resources/title.png");
@@ -24,13 +28,37 @@ private:
         f1.size = {500, 500};
         grc::size s1 = {15, 15};
         auto p1 = std::make_shared<grc::gameBoard>(f1, s1);
+
         p1->boardChanged = [this](std::vector<grc::point> *list)
         {
-            if (this->boardChanged)
+            // 홀 : 백 차례
+            // 짝 : 흑 차례
+            core::sqeuence seq;
+            for (auto &item : *list)
             {
-                this->boardChanged(list);
+                seq.push_back({item.x, item.y});
+            }
+
+            if (list->size() % 2 == 1 && aiTern == core::color::white)
+            {
+                // AI 백 모드
+                auto itemList = core::ai::shared->getNextNode(seq);
+                int random = std::random_device{}() % 3;
+                int idx = std::min((int)itemList.size() - 1, random);
+                seq.push_back(itemList[idx].point);
+                board->setState({itemList[idx].point.x, itemList[idx].point.y}, 2);
+            }
+            else if (list->size() % 2 == 0 && aiTern == core::color::black)
+            {
+                // AI 흑 모드
+                auto itemList = core::ai::shared->getNextNode(seq);
+                int random = std::random_device{}() % 3;
+                int idx = std::min((int)itemList.size() - 1, random);
+                seq.push_back(itemList[idx].point);
+                board->setState({itemList[idx].point.x, itemList[idx].point.y}, 1);
             }
         };
+        board = p1;
 
         grc::rect f2;
         f2.location = {0, 0};
@@ -48,7 +76,7 @@ private:
         {
             if (this->buttonBack)
             {
-                this->buttonBack(27);
+                this->buttonBack();
             }
         };
 
@@ -56,44 +84,31 @@ private:
         view.push_back(std::static_pointer_cast<grc::view>(p));
         view.push_back(std::static_pointer_cast<grc::view>(p2));
     }
-    std::vector<std::string> split(std::string input, char delimiter)
-    {
-        std::vector<std::string> answer;
-        std::stringstream ss(input);
-        std::string temp;
 
-        while (std::getline(ss, temp, delimiter))
-        {
-            answer.push_back(temp);
-        }
-
-        return answer;
-    }
-    std::string replace_all(
-        std::string message,
-        std::string pattern,
-        std::string replace)
-    {
-        std::string result = message;
-        std::string::size_type pos = 0;
-        while ((pos = result.find(pattern)) != std::string::npos)
-        {
-            result.replace(pos, pattern.size(), replace);
-        }
-        return result;
-    }
+    std::function<core::color(std::vector<std::vector<core::color>>)> winCheck;
 
 public:
-    std::function<void(unsigned char)> buttonBack;
-    std::function<void(std::vector<grc::point> *)> boardChanged;
+    std::function<void()> buttonBack;
+    std::function<std::optional<grc::point>(std::vector<grc::point> *list, core::color color)> nextAi;
 
     virtual void keyboardEvent(unsigned char key, int x, int y) override
     {
-        if (buttonBack)
+        if (buttonBack && key == 27)
         {
-            buttonBack(key);
+            buttonBack();
         }
     }
+
+    void setWinCheck(core::color (*check)(std::vector<std::vector<core::color>>))
+    {
+        this->winCheck = check;
+    }
+
+    void setWinCheck(std::function<core::color(std::vector<std::vector<core::color>>)> check)
+    {
+        this->winCheck = check;
+    }
+
     bool setPredict(grc::point pos, int text = 0)
     {
         return std::static_pointer_cast<grc::gameBoard>(this->view[0])->setPredict(pos, 3, text);
@@ -108,11 +123,26 @@ public:
     {
         auto pts = std::static_pointer_cast<grc::gameBoard>(this->view[0]);
         pts->clear(mode);
+        board->setAutoColorChange(false, !((int)this->aiTern));
+
+        // if (aiTern == core::color::black)
+        // {
+        //     auto itemList = core::ai::shared->getNextNode(core::sqeuence());
+        //     int random = std::random_device{}() % 3;
+        //     int idx = std::min((int)itemList.size() - 1, random);
+        //     board->setState({itemList[idx].point.x, itemList[idx].point.y}, 1);
+        // }
+    }
+
+    void setAiTern(core::color c)
+    {
+        this->aiTern = c;
+        board->setAutoColorChange(false, !((int)c));
+        // AI 흑 모드
     }
 
     gameViewHumanvsAIController()
     {
-        srand((unsigned int)time(0));
         setDesign();
     }
 

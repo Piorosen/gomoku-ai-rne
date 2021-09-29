@@ -49,7 +49,10 @@ int grc::gameBoard::click(int state, int x, int y)
         {
             if (this->setState(convPt, this->color + 1))
             {
-                this->color = !this->color;
+                if (autoColorChange)
+                {
+                    this->color = !this->color;
+                }
             }
         }
     }
@@ -77,6 +80,7 @@ bool grc::gameBoard::setState(grc::point pos, int state)
     if (boardChanged)
     {
         boardChanged(&this->point);
+        glutPostRedisplay();
     }
     return true;
 }

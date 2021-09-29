@@ -1,6 +1,5 @@
 #include "design/mainViewController.hpp"
 #include "design/gameViewController.hpp"
-#include "design/treeViewController.hpp"
 #include "design/gameviewAIvsAIController.hpp"
 #include "design/gameViewHumanvsAIController.hpp"
 
@@ -61,6 +60,12 @@ private:
 
     void initui()
     {
+
+        gameHumanVC->buttonBack = [this]()
+        {
+            grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(this->mainVC));
+        };
+
         gameAiVC->buttonBack = [this]()
         {
             grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(this->mainVC));
@@ -214,6 +219,7 @@ private:
             spdlog::info("mainVC : button new game");
             spdlog::critical("mainVC : Not Implement");
 
+            gameHumanVC->setAiTern(core::color::black);
             gameHumanVC->clear();
             grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameHumanVC));
         };
