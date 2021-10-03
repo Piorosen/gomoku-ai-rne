@@ -7,6 +7,3 @@
 [submodule "Gomoku/ThirdParty/spdlog"]
 	path = Gomoku/ThirdParty/spdlog
 	url = https://github.com/gabime/spdlog.git
-[submodule "Gomoku/ThirdParty/vcpkg"]
-	path = Gomoku/ThirdParty/vcpkg
-	url = https://github.com/microsoft/vcpkg
