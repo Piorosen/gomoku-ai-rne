@@ -284,6 +284,13 @@ public:
         grc::application::shared->run();
     }
 
+    void showPredictNumer(bool show)
+    {
+    }
+    void showAllNumber(bool show)
+    {
+    }
+
 protected:
     std::shared_ptr<mainViewController> mainVC;
     std::shared_ptr<gameViewController> gameVC;

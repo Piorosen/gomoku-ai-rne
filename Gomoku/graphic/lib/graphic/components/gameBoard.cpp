@@ -9,6 +9,34 @@
 #include <string>
 #include <spdlog/spdlog.h>
 
+void grc::gameBoard::setAutoColorChange(bool value, int color)
+{
+    autoColorChange = value;
+    this->color = color;
+}
+
+bool grc::gameBoard::getPredictNumber() const
+{
+    return predictNum;
+}
+
+bool grc::gameBoard::getAllNumber() const
+{
+    return allNum;
+}
+
+void grc::gameBoard::setPredictNumber(bool show)
+{
+    predictNum = show;
+    glutPostRedisplay();
+}
+
+void grc::gameBoard::setAllNumber(bool show)
+{
+    allNum = show;
+    glutPostRedisplay();
+}
+
 void grc::gameBoard::setClickDisable(bool value)
 {
     clickDisable = value;
@@ -175,7 +203,7 @@ bool grc::gameBoard::render() const
                 {
                 case 1:
                     this->drawCircle(pos, 15, blackColor);
-                    if (boardState[y][x] > 100000)
+                    if (boardState[y][x] > 100000 && this->allNum)
                     {
                         this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
                     }
@@ -184,7 +212,7 @@ bool grc::gameBoard::render() const
 
                 case 2:
                     this->drawCircle(pos, 15, whiteColor);
-                    if (boardState[y][x] > 100000)
+                    if (boardState[y][x] > 100000 && this->allNum)
                     {
                         this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
                     }
@@ -192,7 +220,7 @@ bool grc::gameBoard::render() const
 
                 case 3:
                     this->drawCircle(pos, 15, predictColor);
-                    if (boardState[y][x] > 100000)
+                    if (boardState[y][x] > 100000 && this->predictNum)
                     {
                         this->drawBitmapText(std::to_string(boardState[y][x] / 100000), pos);
                     }

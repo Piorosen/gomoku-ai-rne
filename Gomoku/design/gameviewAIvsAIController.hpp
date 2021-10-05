@@ -91,6 +91,17 @@ public:
         }
         break;
 
+        case 'a':
+        {
+            board->setAllNumber(!board->getAllNumber());
+        }
+        break;
+        case 's':
+        {
+            board->setPredictNumber(!board->getPredictNumber());
+        }
+        break;
+
         case 'q':
         {
             auto b = board->getSequence();

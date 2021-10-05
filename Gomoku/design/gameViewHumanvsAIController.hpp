@@ -93,9 +93,27 @@ public:
 
     virtual void keyboardEvent(unsigned char key, int x, int y) override
     {
-        if (buttonBack && key == 27)
+        switch (key)
         {
-            buttonBack();
+        case 27:
+        {
+            if (buttonBack)
+            {
+                buttonBack();
+            }
+        }
+        break;
+
+        case 'a':
+        {
+            board->setAllNumber(!board->getAllNumber());
+        }
+        break;
+        case 's':
+        {
+            board->setPredictNumber(!board->getPredictNumber());
+        }
+        break;
         }
     }
 

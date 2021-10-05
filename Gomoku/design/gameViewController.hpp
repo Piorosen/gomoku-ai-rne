@@ -13,6 +13,8 @@
 class gameViewController : public grc::viewcontroller
 {
 private:
+    std::shared_ptr<grc::gameBoard> board;
+
     void setDesign()
     {
         auto titleIdx = grc::imagecollect::shared->add("./resources/title.png");
@@ -23,8 +25,8 @@ private:
         f1.location = {0, 200};
         f1.size = {500, 500};
         grc::size s1 = {15, 15};
-        auto p1 = std::make_shared<grc::gameBoard>(f1, s1);
-        p1->boardChanged = [this](std::vector<grc::point> *list)
+        board = std::make_shared<grc::gameBoard>(f1, s1);
+        board->boardChanged = [this](std::vector<grc::point> *list)
         {
             if (this->boardChanged)
             {
@@ -52,7 +54,7 @@ private:
             }
         };
 
-        view.push_back(std::static_pointer_cast<grc::view>(p1));
+        view.push_back(std::static_pointer_cast<grc::view>(board));
         view.push_back(std::static_pointer_cast<grc::view>(p));
         view.push_back(std::static_pointer_cast<grc::view>(p2));
     }
@@ -63,9 +65,27 @@ public:
 
     virtual void keyboardEvent(unsigned char key, int x, int y) override
     {
-        if (buttonBack)
+        switch (key)
         {
-            buttonBack(key);
+        case 27:
+        {
+            if (buttonBack)
+            {
+                buttonBack(key);
+            }
+        }
+        break;
+
+        case 'a':
+        {
+            board->setAllNumber(!board->getAllNumber());
+        }
+        break;
+        case 's':
+        {
+            board->setPredictNumber(!board->getPredictNumber());
+        }
+        break;
         }
     }
     bool setPredict(grc::point pos, int text = 0)
