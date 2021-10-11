@@ -28,11 +28,6 @@ ADD_EXECUTABLE(${PROGRAM_NAME}
 	main.cpp
 	)
 
-if (WIN32)
-set_property(TARGET ${PROGRAM_NAME}
-        PROPERTY VS_PACKAGE_REFERENCES "nupengl.core_0.1.0.1"
-    )
-endif()
 add_subdirectory(Core core/)
 add_subdirectory(Graphic graphic/)
 
