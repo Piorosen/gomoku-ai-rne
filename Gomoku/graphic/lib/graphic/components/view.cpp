@@ -136,6 +136,11 @@ bool grc::view::render() const
 
 void grc::view::drawRect(grc::rect size, grc::color color) const
 {
+    if (color.alpha == 0)
+    {
+        return;
+    }
+
     glColor4f(color.red / 255.0, color.green / 255.0, color.blue / 255.0, color.alpha / 255.0);
     glBegin(GL_QUADS); //4점이 하나의 사각형을 구성한다. 반시계 방향으로 4점의 vertex를 지정해줘야 한다.
     grc::point lup = {size.location.x, size.location.y + size.size.height};
@@ -158,6 +163,10 @@ void grc::view::drawRect(grc::rect size, grc::color color) const
 
 void grc::view::drawCircle(grc::point pt, float radius, grc::color color) const
 {
+    if (color.alpha == 0)
+    {
+        return;
+    }
     const int lineAmount = (int)radius; //# of triangles used to draw circle
 
     double twicePi = 2.0f * MATH_PI;
@@ -183,6 +192,10 @@ void grc::view::drawCircle(grc::point pt, float radius, grc::color color) const
 
 void grc::view::drawLine(grc::point x, grc::point y, float thin, grc::color color) const
 {
+    if (color.alpha == 0)
+    {
+        return;
+    }
     const auto &displaySize = grc::application::shared->getSize();
     float displayX = displaySize.width / 2,
           displayY = -displaySize.height / 2;

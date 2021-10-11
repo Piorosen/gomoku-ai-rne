@@ -19,6 +19,40 @@ class gameviewAIvsAIController : public grc::viewcontroller
 {
 private:
     std::shared_ptr<grc::gameBoard> board;
+    std::shared_ptr<grc::imageview> winView;
+
+    std::shared_ptr<grc::view> makeVictoryView()
+    {
+        auto okIdx = grc::imagecollect::shared->add("./resources/ok.png");
+        auto ok_focusIdx = grc::imagecollect::shared->add("./resources/ok_focus.png");
+        auto black_victoryIdx = grc::imagecollect::shared->add("./resources/black_victory.png");
+        auto white_victoryIdx = grc::imagecollect::shared->add("./resources/white_victory.png");
+
+        grc::rect f1;
+        f1.location = {100, 175};
+        f1.size = {300, 350};
+        std::shared_ptr<grc::view> container = std::make_shared<grc::view>(f1, grc::color(0xffffffff));
+        // container->setHidden(true);
+        // container->setBorder(3, grc::color(0x000000ff));
+
+        grc::rect f2;
+        f2.location = {125, 200};
+        f2.size = {250, 250};
+        winView = std::make_shared<grc::imageview>(f2);
+        winView->imageId = black_victoryIdx;
+
+        grc::rect f3;
+        f3.location = {175, 450};
+        f3.size = {150, 50};
+        auto okButton = std::make_shared<grc::imagebutton>(f3);
+        okButton->backgroundImageId = okIdx;
+        okButton->focusImageId = ok_focusIdx;
+
+        container->controls.push_back(std::static_pointer_cast<grc::view>(winView));
+        container->controls.push_back(std::static_pointer_cast<grc::view>(okButton));
+
+        return container;
+    }
 
     void setDesign()
     {
@@ -53,9 +87,12 @@ private:
             }
         };
 
+        auto menu = this->makeVictoryView();
+
         view.push_back(std::static_pointer_cast<grc::view>(board));
         view.push_back(std::static_pointer_cast<grc::view>(p));
         view.push_back(std::static_pointer_cast<grc::view>(p2));
+        view.push_back(menu);
     }
 
     std::function<core::color(std::vector<std::vector<core::color>>)> winCheck;
