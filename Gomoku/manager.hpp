@@ -210,8 +210,6 @@ private:
 
         mainVC->buttonContinueGame = [this]()
         {
-            spdlog::info("mainVC : button continue game");
-            spdlog::critical("mainVC : Not Implement");
             gameHumanVC->setAiTern(core::color::black);
             gameHumanVC->clear();
             grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameHumanVC));
@@ -219,9 +217,6 @@ private:
 
         mainVC->buttonNewGame = [this]()
         {
-            spdlog::info("mainVC : button new game");
-            spdlog::critical("mainVC : Not Implement");
-
             gameHumanVC->setAiTern(core::color::white);
             gameHumanVC->clear();
             grc::application::shared->setViewController(std::static_pointer_cast<grc::viewcontroller>(gameHumanVC));
