@@ -29,11 +29,13 @@ public:
         if (color == core::color::black)
         {
             winView->imageId = black_victoryIdx;
+            board->setClickDisable(true);
             winContainer->setHidden(false);
         }
         else if (color == core::color::white)
         {
             winView->imageId = white_victoryIdx;
+            board->setClickDisable(true);
             winContainer->setHidden(false);
         }
     }
@@ -75,6 +77,7 @@ private:
 
             if (p.count() > 0.1)
             {
+                board->setClickDisable(false);
                 this->clear();
                 winContainer->setHidden(true);
             }
