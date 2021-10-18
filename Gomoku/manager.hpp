@@ -32,8 +32,12 @@ private:
 
     void initapplication()
     {
-        // spdlog::info("{}", std::filesystem::current_path().u8string());
+// spdlog::info("{}", std::filesystem::current_path().u8string());
+#if defined(_WIN32)
+        grc::application::shared->initialize({500, 700}, "Gomoku : I want to know that.");
+#else
         grc::application::shared->initialize({500, 700}, "오목 : 그것이 알고 싶다.");
+#endif
 
         grc::application::shared->closedEvent = []()
         {
@@ -42,12 +46,12 @@ private:
             spdlog::info("Close Event : AI Save End");
             time_t timer = time(NULL);
             struct tm *t = localtime(&timer);
-            printf("현재 년: %d\n", t->tm_year + 1900);
-            printf("현재 월: %d\n", t->tm_mon + 1);
-            printf("현재 일: %d\n", t->tm_mday);
-            printf("현재 시: %d\n", t->tm_hour);
-            printf("현재 분: %d\n", t->tm_min);
-            printf("현재 초: %d\n", t->tm_sec);
+            printf("Now Year: %d\n", t->tm_year + 1900);
+            printf("Now Month: %d\n", t->tm_mon + 1);
+            printf("Now Day: %d\n", t->tm_mday);
+            printf("Now Hour: %d\n", t->tm_hour);
+            printf("Now Min: %d\n", t->tm_min);
+            printf("Now Sec: %d\n", t->tm_sec);
 
             spdlog::info("Close Event : File Rename");
             char p[256];
