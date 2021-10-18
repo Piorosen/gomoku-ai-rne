@@ -20,6 +20,24 @@ class gameviewAIvsAIController : public grc::viewcontroller
 private:
     std::shared_ptr<grc::gameBoard> board;
     std::shared_ptr<grc::imageview> winView;
+    std::shared_ptr<grc::view> winContainer;
+
+    void showWinView(core::color color)
+    {
+        auto black_victoryIdx = grc::imagecollect::shared->get("./resources/black_victory.png");
+        auto white_victoryIdx = grc::imagecollect::shared->get("./resources/white_victory.png");
+
+        if (color == core::color::black)
+        {
+            winView->imageId = black_victoryIdx;
+            winContainer->setHidden(false);
+        }
+        else if (color == core::color::white)
+        {
+            winView->imageId = white_victoryIdx;
+            winContainer->setHidden(false);
+        }
+    }
 
     std::shared_ptr<grc::view> makeVictoryView()
     {
@@ -31,9 +49,9 @@ private:
         grc::rect f1;
         f1.location = {100, 175};
         f1.size = {300, 350};
-        std::shared_ptr<grc::view> container = std::make_shared<grc::view>(f1, grc::color(0xffffffff));
+        winContainer = std::make_shared<grc::view>(f1, grc::color(0xffffffff));
         // container->setHidden(true);
-        // container->setBorder(3, grc::color(0x000000ff));
+        winContainer->setBorder(10, grc::color(0x000000ff));
 
         grc::rect f2;
         f2.location = {125, 200};
@@ -47,11 +65,16 @@ private:
         auto okButton = std::make_shared<grc::imagebutton>(f3);
         okButton->backgroundImageId = okIdx;
         okButton->focusImageId = ok_focusIdx;
+        okButton->buttonDown = [this]()
+        {
+            this->clear();
+            winContainer->setHidden(true);
+        };
 
-        container->controls.push_back(std::static_pointer_cast<grc::view>(winView));
-        container->controls.push_back(std::static_pointer_cast<grc::view>(okButton));
+        winContainer->controls.push_back(std::static_pointer_cast<grc::view>(winView));
+        winContainer->controls.push_back(std::static_pointer_cast<grc::view>(okButton));
 
-        return container;
+        return winContainer;
     }
 
     void setDesign()
@@ -121,7 +144,6 @@ public:
                 buttonBack();
             }
             break;
-
         case 'r':
         {
             this->clear();
@@ -212,6 +234,7 @@ public:
                         pt.push_back({item.x, item.y});
                     }
 
+                    showWinView(result);
                     switch (result)
                     {
                     case core::color::black:
