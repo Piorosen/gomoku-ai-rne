@@ -147,6 +147,7 @@ private:
                                                      : core::color::white;
                 }
                 auto result = winCheck(v);
+                gameVC->showWinView(result);
 
                 spdlog::info("----- Result : Win Check -----");
                 std::string dummy;
@@ -155,16 +156,10 @@ private:
                 case core::color::black:
                     spdlog::info("----- [ BLACK ] -----");
                     core::ai::shared->appendAI(pt, result);
-                    std::cout << "Enter to continue..." << std::endl;
-                    std::getline(std::cin, dummy);
-                    gameVC->clear();
                     break;
                 case core::color::white:
                     spdlog::info("----- [ WHITE ] -----");
                     core::ai::shared->appendAI(pt, result);
-                    std::cout << "Enter to continue..." << std::endl;
-                    std::getline(std::cin, dummy);
-                    gameVC->clear();
                     break;
                 case core::color::none:
                     spdlog::info("----- [ NONE ] -----");
@@ -245,12 +240,14 @@ public:
     void setWinCheck(core::color (*check)(std::vector<std::vector<core::color>>))
     {
         gameAiVC->setWinCheck(check);
+        gameHumanVC->setWinCheck(check);
         this->winCheck = check;
     }
 
     void setWinCheck(std::function<core::color(std::vector<std::vector<core::color>>)> check)
     {
         gameAiVC->setWinCheck(check);
+        gameHumanVC->setWinCheck(check);
         this->winCheck = check;
     }
 

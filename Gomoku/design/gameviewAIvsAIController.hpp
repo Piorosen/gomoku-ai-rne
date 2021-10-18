@@ -14,10 +14,13 @@
 #include <functional>
 #include <sstream>
 #include <optional>
+#include <chrono>
 
 class gameviewAIvsAIController : public grc::viewcontroller
 {
 private:
+    std::chrono::system_clock::time_point showWinTime;
+
     std::shared_ptr<grc::gameBoard> board;
     std::shared_ptr<grc::imageview> winView;
     std::shared_ptr<grc::view> winContainer;
@@ -26,6 +29,7 @@ private:
     {
         auto black_victoryIdx = grc::imagecollect::shared->get("./resources/black_victory.png");
         auto white_victoryIdx = grc::imagecollect::shared->get("./resources/white_victory.png");
+        showWinTime = std::chrono::system_clock::now();
 
         if (color == core::color::black)
         {
@@ -50,7 +54,7 @@ private:
         f1.location = {100, 175};
         f1.size = {300, 350};
         winContainer = std::make_shared<grc::view>(f1, grc::color(0xffffffff));
-        // container->setHidden(true);
+        winContainer->setHidden(true);
         winContainer->setBorder(10, grc::color(0x000000ff));
 
         grc::rect f2;
@@ -67,8 +71,13 @@ private:
         okButton->focusImageId = ok_focusIdx;
         okButton->buttonDown = [this]()
         {
-            this->clear();
-            winContainer->setHidden(true);
+            std::chrono::duration<double> p = std::chrono::system_clock::now() - showWinTime;
+
+            if (p.count() > 0.1)
+            {
+                this->clear();
+                winContainer->setHidden(true);
+            }
         };
 
         winContainer->controls.push_back(std::static_pointer_cast<grc::view>(winView));
@@ -240,16 +249,10 @@ public:
                     case core::color::black:
                         spdlog::info("----- [ BLACK ] -----");
                         core::ai::shared->appendAI(pt, result);
-                        std::cout << "Enter to continue..." << std::endl;
-                        std::getline(std::cin, dummy);
-                        this->clear();
                         break;
                     case core::color::white:
                         spdlog::info("----- [ WHITE ] -----");
                         core::ai::shared->appendAI(pt, result);
-                        std::cout << "Enter to continue..." << std::endl;
-                        std::getline(std::cin, dummy);
-                        this->clear();
                         break;
                     case core::color::none:
                         spdlog::info("----- [ NONE ] -----");

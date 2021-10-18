@@ -12,10 +12,13 @@
 #include <ctime>
 #include <functional>
 #include <sstream>
+#include <chrono>
 
 class gameViewHumanvsAIController : public grc::viewcontroller
 {
 private:
+    std::chrono::system_clock::time_point showWinTime;
+
     std::shared_ptr<grc::gameBoard> board;
     core::color aiTern = core::color::none;
     std::shared_ptr<grc::imageview> winView;
@@ -25,6 +28,7 @@ private:
     {
         auto black_victoryIdx = grc::imagecollect::shared->get("./resources/black_victory.png");
         auto white_victoryIdx = grc::imagecollect::shared->get("./resources/white_victory.png");
+        showWinTime = std::chrono::system_clock::now();
 
         if (color == core::color::black)
         {
@@ -49,7 +53,7 @@ private:
         f1.location = {100, 175};
         f1.size = {300, 350};
         winContainer = std::make_shared<grc::view>(f1, grc::color(0xffffffff));
-        // container->setHidden(true);
+        winContainer->setHidden(true);
         winContainer->setBorder(10, grc::color(0x000000ff));
 
         grc::rect f2;
@@ -66,8 +70,13 @@ private:
         okButton->focusImageId = ok_focusIdx;
         okButton->buttonDown = [this]()
         {
-            this->clear();
-            winContainer->setHidden(true);
+            std::chrono::duration<double> p = std::chrono::system_clock::now() - showWinTime;
+
+            if (p.count() > 0.1)
+            {
+                this->clear();
+                winContainer->setHidden(true);
+            }
         };
 
         winContainer->controls.push_back(std::static_pointer_cast<grc::view>(winView));
@@ -86,10 +95,58 @@ private:
         f1.location = {0, 200};
         f1.size = {500, 500};
         grc::size s1 = {15, 15};
-        auto p1 = std::make_shared<grc::gameBoard>(f1, s1);
-
-        p1->boardChanged = [this](std::vector<grc::point> *list)
+        board = std::make_shared<grc::gameBoard>(f1, s1);
+        board->boardChanged = [this](std::vector<grc::point> *list)
         {
+            if (winCheck)
+            {
+                spdlog::info("----- Result : Win Check -----");
+
+                core::sqeuence pt;
+                for (auto &item : *list)
+                {
+                    pt.push_back({item.x, item.y});
+                }
+                std::vector<std::vector<core::color>> v;
+                for (int y = 0; y < 15; y++)
+                {
+                    std::vector<core::color> line;
+                    for (int x = 0; x < 15; x++)
+                    {
+                        line.push_back(core::color::none);
+                    }
+                    v.push_back(line);
+                }
+                for (int i = 0; i < pt.size(); i++)
+                {
+                    v[pt[i].y][pt[i].x] = i % 2 == 0 ? core::color::black
+                                                     : core::color::white;
+                }
+
+                auto result = winCheck(v);
+                showWinView(result);
+                switch (result)
+                {
+                case core::color::black:
+                    spdlog::info("----- [ BLACK ] -----");
+                    core::ai::shared->appendAI(pt, result);
+                    break;
+                case core::color::white:
+                    spdlog::info("----- [ WHITE ] -----");
+                    core::ai::shared->appendAI(pt, result);
+                    break;
+                case core::color::none:
+                    spdlog::info("----- [ NONE ] -----");
+                    break;
+                }
+
+                spdlog::info("----- Result : Win Check -----");
+            }
+            else
+            {
+                spdlog::critical("not found win Check");
+            }
+
             // 홀 : 백 차례
             // 짝 : 흑 차례
             core::sqeuence seq;
@@ -117,7 +174,6 @@ private:
                 board->setState({itemList[idx].point.x, itemList[idx].point.y}, 1);
             }
         };
-        board = p1;
 
         grc::rect f2;
         f2.location = {0, 0};
@@ -139,7 +195,7 @@ private:
             }
         };
 
-        view.push_back(std::static_pointer_cast<grc::view>(p1));
+        view.push_back(std::static_pointer_cast<grc::view>(board));
         view.push_back(std::static_pointer_cast<grc::view>(p));
         view.push_back(std::static_pointer_cast<grc::view>(p2));
 

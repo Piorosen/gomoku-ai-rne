@@ -15,9 +15,27 @@ color winCheck(vector<vector<color>> board)
 {
     int winCount = 5;
 
-    // check : vertical
-    // check : horizontal
-    // check : cross
+    for (int y = 0; y < board.size(); y++)
+    {
+        color cur = color::none;
+        int count = 0;
+        for (int x = 0; x < board[y].size(); x++)
+        {
+            if (cur != board[y][x])
+            {
+                cur = board[y][x];
+                count = 1;
+            }
+            else if (cur != color::none)
+            {
+                count += 1;
+                if (count == 3)
+                {
+                    return cur;
+                }
+            }
+        }
+    }
 
     return color::none;
 }

@@ -8,21 +8,23 @@
 #include <core/core.h>
 
 #include <cstdlib>
-#include <ctime>
+#include <time.h>
 #include <functional>
 #include <sstream>
+#include <chrono>
 
 class gameViewController : public grc::viewcontroller
 {
 private:
-    std::shared_ptr<grc::gameBoard> board;
-    std::shared_ptr<grc::imageview> winView;
-    std::shared_ptr<grc::view> winContainer;
+    std::chrono::system_clock::time_point showWinTime;
 
+public:
     void showWinView(core::color color)
     {
         auto black_victoryIdx = grc::imagecollect::shared->get("./resources/black_victory.png");
         auto white_victoryIdx = grc::imagecollect::shared->get("./resources/white_victory.png");
+
+        showWinTime = std::chrono::system_clock::now();
 
         if (color == core::color::black)
         {
@@ -36,6 +38,11 @@ private:
         }
     }
 
+private:
+    std::shared_ptr<grc::gameBoard> board;
+    std::shared_ptr<grc::imageview> winView;
+    std::shared_ptr<grc::view> winContainer;
+
     std::shared_ptr<grc::view> makeVictoryView()
     {
         auto okIdx = grc::imagecollect::shared->add("./resources/ok.png");
@@ -47,7 +54,7 @@ private:
         f1.location = {100, 175};
         f1.size = {300, 350};
         winContainer = std::make_shared<grc::view>(f1, grc::color(0xffffffff));
-        // container->setHidden(true);
+        winContainer->setHidden(true);
         winContainer->setBorder(10, grc::color(0x000000ff));
 
         grc::rect f2;
@@ -64,8 +71,13 @@ private:
         okButton->focusImageId = ok_focusIdx;
         okButton->buttonDown = [this]()
         {
-            this->clear();
-            winContainer->setHidden(true);
+            std::chrono::duration<double> p = std::chrono::system_clock::now() - showWinTime;
+
+            if (p.count() > 0.1)
+            {
+                this->clear();
+                winContainer->setHidden(true);
+            }
         };
 
         winContainer->controls.push_back(std::static_pointer_cast<grc::view>(winView));
