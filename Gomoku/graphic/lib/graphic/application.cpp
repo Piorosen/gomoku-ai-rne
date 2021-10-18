@@ -2,6 +2,7 @@
 
 #if defined(_WIN32)
 #include <GL/glut.h>
+#include <stdlib.h>
 #else
 #include <GLUT/glut.h>
 #endif
@@ -128,6 +129,10 @@ void grc::application::setViewController(std::shared_ptr<grc::viewcontroller> &&
 
 void grc::application::initialize(const grc::size size, const std::string title)
 {
+#if defined(_WIN32)
+    system("chcp 65001");
+#endif
+
     this->size = size;
     this->title = title;
 
