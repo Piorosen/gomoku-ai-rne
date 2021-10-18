@@ -95,11 +95,11 @@ std::vector<grc::point> grc::gameBoard::getSequence()
 
 bool grc::gameBoard::setState(grc::point pos, int state)
 {
-    if (clickDisable)
-    {
-        spdlog::warn("Board Info : setState(clickDisable point) : [{}, {}]", pos.x, pos.y);
-        return false;
-    }
+    // if (clickDisable)
+    // {
+    //     spdlog::warn("Board Info : setState(clickDisable point) : [{}, {}]", pos.x, pos.y);
+    //     return false;
+    // }
 
     int value = boardState[pos.y][pos.x] % 100000;
     if (value == 1 || value == 2)

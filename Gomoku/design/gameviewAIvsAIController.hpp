@@ -21,6 +21,8 @@ class gameviewAIvsAIController : public grc::viewcontroller
 private:
     std::chrono::system_clock::time_point showWinTime;
 
+    bool gameEndEvent = false;
+
     std::shared_ptr<grc::gameBoard> board;
     std::shared_ptr<grc::imageview> winView;
     std::shared_ptr<grc::view> winContainer;
@@ -34,13 +36,13 @@ private:
         if (color == core::color::black)
         {
             winView->imageId = black_victoryIdx;
-            board->setClickDisable(true);
+            gameEndEvent = true;
             winContainer->setHidden(false);
         }
         else if (color == core::color::white)
         {
             winView->imageId = white_victoryIdx;
-            board->setClickDisable(true);
+            gameEndEvent = true;
             winContainer->setHidden(false);
         }
     }
@@ -77,7 +79,7 @@ private:
 
             if (p.count() > 0.1)
             {
-                board->setClickDisable(false);
+                gameEndEvent = false;
                 this->clear();
                 winContainer->setHidden(true);
             }
@@ -175,6 +177,10 @@ public:
 
         case 'q':
         {
+            if (gameEndEvent)
+            {
+                break;
+            }
             auto b = board->getSequence();
             if (b.size() > 0)
             {
@@ -203,6 +209,10 @@ public:
 
         case 'e':
         {
+            if (gameEndEvent)
+            {
+                break;
+            }
             auto c = board->getSequence();
             if (buttonNext)
             {
