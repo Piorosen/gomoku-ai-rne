@@ -162,19 +162,39 @@ private:
             {
                 // AI 백 모드
                 auto itemList = core::ai::shared->getNextNode(seq);
-                int random = std::random_device{}() % 3;
-                int idx = std::min((int)itemList.size() - 1, random);
-                seq.push_back(itemList[idx].point);
-                board->setState({itemList[idx].point.x, itemList[idx].point.y}, 2);
+                core::point ptttt;
+                if (this->selectNode)
+                {
+                    ptttt = this->selectNode(itemList).point;
+                }
+                else
+                {
+                    int random = std::random_device{}() % 3;
+                    int idx = std::min((int)itemList.size() - 1, random);
+                    ptttt = itemList[idx].point;
+                }
+
+                seq.push_back(ptttt);
+                board->setState({ptttt.x, ptttt.y}, 2);
             }
             else if (list->size() % 2 == 0 && aiTern == core::color::black)
             {
                 // AI 흑 모드
                 auto itemList = core::ai::shared->getNextNode(seq);
-                int random = std::random_device{}() % 3;
-                int idx = std::min((int)itemList.size() - 1, random);
-                seq.push_back(itemList[idx].point);
-                board->setState({itemList[idx].point.x, itemList[idx].point.y}, 1);
+                core::point ptttt;
+                if (this->selectNode)
+                {
+                    ptttt = this->selectNode(itemList).point;
+                }
+                else
+                {
+                    int random = std::random_device{}() % 3;
+                    int idx = std::min((int)itemList.size() - 1, random);
+                    ptttt = itemList[idx].point;
+                }
+
+                seq.push_back(ptttt);
+                board->setState({ptttt.x, ptttt.y}, 1);
             }
         };
 
@@ -207,6 +227,7 @@ private:
     }
 
     std::function<core::color(std::vector<std::vector<core::color>>)> winCheck;
+    std::function<core::scorePoint(std::vector<core::scorePoint>)> selectNode;
 
 public:
     std::function<void()> buttonBack;
@@ -237,7 +258,10 @@ public:
         break;
         }
     }
-
+    void setSelectNode(core::scorePoint (*check)(std::vector<core::scorePoint>))
+    {
+        this->selectNode = check;
+    }
     void setWinCheck(core::color (*check)(std::vector<std::vector<core::color>>))
     {
         this->winCheck = check;

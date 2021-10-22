@@ -133,10 +133,16 @@ private:
     }
 
     std::function<core::color(std::vector<std::vector<core::color>>)> winCheck;
+    std::function<core::scorePoint(std::vector<core::scorePoint>)> selectNode;
 
 public:
     std::function<void()> buttonBack;
     std::function<std::optional<grc::point>(std::vector<grc::point> *list)> buttonNext;
+
+    void setSelectNode(core::scorePoint (*check)(std::vector<core::scorePoint>))
+    {
+        this->selectNode = check;
+    }
 
     void setWinCheck(core::color (*check)(std::vector<std::vector<core::color>>))
     {

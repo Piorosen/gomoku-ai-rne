@@ -91,17 +91,30 @@ private:
             }
             else
             {
-                int random = std::random_device{}() % 3;
-                int idx = std::min((int)itemList.size() - 1, random);
-
-                pt.push_back(itemList[idx].point);
                 auto nextList = core::ai::shared->getNextNode(pt);
+                grc::point ptttt;
+                if (this->selectNode)
+                {
+                    auto paaa = this->selectNode(nextList).point;
+                    pt.push_back(paaa);
+                    ptttt = {paaa.x,
+                             paaa.y};
+                }
+                else
+                {
+                    int random = std::random_device{}() % 3;
+                    int idx = std::min((int)itemList.size() - 1, random);
+                    pt.push_back(itemList[idx].point);
+                    ptttt = {itemList[idx].point.x, itemList[idx].point.y};
+                }
+
+                nextList = core::ai::shared->getNextNode(pt);
 
                 for (int i = 0; i < nextList.size(); i++)
                 {
                     gameAiVC->setPredict({nextList[i].point.x, nextList[i].point.y}, i + 1);
                 }
-                return grc::point{itemList[idx].point.x, itemList[idx].point.y};
+                return ptttt;
             }
         };
 
@@ -234,6 +247,14 @@ private:
 
 public:
     static std::unique_ptr<manager> shared;
+    std::function<core::scorePoint(std::vector<core::scorePoint>)> selectNode;
+
+    void setSelectNode(core::scorePoint (*check)(std::vector<core::scorePoint>))
+    {
+        selectNode = check;
+        gameAiVC->setSelectNode(check);
+        gameHumanVC->setSelectNode(check);
+    }
 
     // default : 500ms
     void setDefaultAiCalculateTimeOut(int milliseconds)
