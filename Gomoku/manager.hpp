@@ -156,6 +156,7 @@ private:
                     spdlog::info("----- [ BLACK ] -----");
                     core::ai::shared->appendAI(pt, result);
                     std::cout << "Enter to continue..." << std::endl;
+                    
                     std::getline(std::cin, dummy);
                     gameVC->clear();
                     break;

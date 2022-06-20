@@ -65,9 +65,9 @@ int check2(vector<vector<color>> arr) {
 }
  
 int check3(vector<vector<color>> arr) {
-    for (int i = 2; i < 14; i++)
+    for (int i = 2; i < 13; i++)
     {
-        for (int j = 2; j < 14; j++)
+        for (int j = 2; j < 13; j++)
         {
             if (arr[j - 2][i - 2] == color::black && arr[j - 1][i - 1] == color::black && arr[j][i] == color::black && arr[j + 1][i + 1] == color::black && arr[j + 2][i + 2] == color::black) {
                 return 1;
